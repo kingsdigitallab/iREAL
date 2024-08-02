@@ -1,6 +1,6 @@
-# iReal
+# iReal - Backend
 
-This project is a RAG system to answer questions about school records.
+This backeng is a RAG system to answer questions about school records.
 
 The RAG is built using [LLamaIndex](https://www.llamaindex.ai),
 [Ollama](https://ollama.com) to run a local LLM, and the
