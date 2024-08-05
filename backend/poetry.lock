@@ -202,6 +202,17 @@ astroid = ["astroid (>=1,<2)", "astroid (>=2,<4)"]
 test = ["astroid (>=1,<2)", "astroid (>=2,<4)", "pytest"]
 
 [[package]]
+name = "async-timeout"
+version = "4.0.3"
+description = "Timeout context manager for asyncio programs"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "async-timeout-4.0.3.tar.gz", hash = "sha256:4640d96be84d82d02ed59ea2b7105a0f7b33abe8703703cd0ab0bf87c427522f"},
+    {file = "async_timeout-4.0.3-py3-none-any.whl", hash = "sha256:7405140ff1230c310e51dc27b3145b9092d659ce68ff733fb0cefe3ee42be028"},
+]
+
+[[package]]
 name = "attrs"
 version = "23.2.0"
 description = "Classes Without Boilerplate"
@@ -284,6 +295,28 @@ colorama = ["colorama (>=0.4.3)"]
 d = ["aiohttp (>=3.7.4)", "aiohttp (>=3.7.4,!=3.9.0)"]
 jupyter = ["ipython (>=7.8.0)", "tokenize-rt (>=3.2.0)"]
 uvloop = ["uvloop (>=0.15.2)"]
+
+[[package]]
+name = "bm25s"
+version = "0.1.10"
+description = "An ultra-fast implementation of BM25 based on sparse matrices."
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "bm25s-0.1.10-py3-none-any.whl", hash = "sha256:e936fc820358eed8b3f898841fdcf06391983b1fb86ab2936d5c6dbb8ce1b650"},
+    {file = "bm25s-0.1.10.tar.gz", hash = "sha256:ba4e23e65da069f7839c7b9b391e6657574e7246ea39b1b537e7ae54021c4848"},
+]
+
+[package.dependencies]
+numpy = "*"
+scipy = "*"
+
+[package.extras]
+core = ["PyStemmer", "jax[cpu]", "tqdm", "ujson"]
+dev = ["black"]
+full = ["PyStemmer", "black", "huggingface-hub", "jax[cpu]", "tqdm", "ujson"]
+hf = ["huggingface-hub"]
+stem = ["PyStemmer"]
 
 [[package]]
 name = "certifi"
@@ -1477,6 +1510,37 @@ llama-index-core = ">=0.10.7,<0.11.0"
 llama-parse = ">=0.4.0"
 
 [[package]]
+name = "llama-index-retrievers-bm25"
+version = "0.2.2"
+description = "llama-index retrievers bm25 integration"
+optional = false
+python-versions = "<4.0,>=3.8.1"
+files = [
+    {file = "llama_index_retrievers_bm25-0.2.2-py3-none-any.whl", hash = "sha256:0c5478e54c17c7a29c87d6698ad5f74deff65175da5b9accdc594366866fb634"},
+    {file = "llama_index_retrievers_bm25-0.2.2.tar.gz", hash = "sha256:d810be785b961262f61fefdeaed645a5383b8e7885c2595c83a98ae599b8da2a"},
+]
+
+[package.dependencies]
+bm25s = ">=0.1.7,<0.2.0"
+llama-index-core = ">=0.10.1,<0.11.0"
+pystemmer = ">=2.2.0.1,<3.0.0.0"
+
+[[package]]
+name = "llama-index-storage-kvstore-redis"
+version = "0.1.5"
+description = "llama-index kvstore redis integration"
+optional = false
+python-versions = "<4.0,>=3.8.1"
+files = [
+    {file = "llama_index_storage_kvstore_redis-0.1.5-py3-none-any.whl", hash = "sha256:9a27643da4dfaa7cbcfe7d10799afd9e41f4576bc0f3228d279d2e04b76ef5f9"},
+    {file = "llama_index_storage_kvstore_redis-0.1.5.tar.gz", hash = "sha256:697c4ae00d481ec04764748b48b871f70653b29c9c14a818028f3c92d75583f4"},
+]
+
+[package.dependencies]
+llama-index-core = ">=0.10.1,<0.11.0"
+redis = ">=5.0.1,<6.0.0"
+
+[[package]]
 name = "llama-index-vector-stores-qdrant"
 version = "0.2.14"
 description = "llama-index vector_stores qdrant integration"
@@ -2587,6 +2651,16 @@ full = ["Pillow (>=8.0.0)", "PyCryptodome", "cryptography"]
 image = ["Pillow (>=8.0.0)"]
 
 [[package]]
+name = "pystemmer"
+version = "2.2.0.1"
+description = "Snowball stemming algorithms, for information retrieval"
+optional = false
+python-versions = "*"
+files = [
+    {file = "PyStemmer-2.2.0.1.tar.gz", hash = "sha256:9f3b366f1ed06b49dc1868bf0aefd884423db80f3431be442d0f993e448cc67b"},
+]
+
+[[package]]
 name = "python-dateutil"
 version = "2.9.0.post0"
 description = "Extensions to the standard Python datetime module"
@@ -2730,6 +2804,24 @@ urllib3 = ">=1.26.14,<3"
 [package.extras]
 fastembed = ["fastembed (==0.2.7)"]
 fastembed-gpu = ["fastembed-gpu (==0.2.7)"]
+
+[[package]]
+name = "redis"
+version = "5.0.8"
+description = "Python client for Redis database and key-value store"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "redis-5.0.8-py3-none-any.whl", hash = "sha256:56134ee08ea909106090934adc36f65c9bcbbaecea5b21ba704ba6fb561f8eb4"},
+    {file = "redis-5.0.8.tar.gz", hash = "sha256:0c5b10d387568dfe0698c6fad6615750c24170e548ca2deac10c649d463e9870"},
+]
+
+[package.dependencies]
+async-timeout = {version = ">=4.0.3", markers = "python_full_version < \"3.11.3\""}
+
+[package.extras]
+hiredis = ["hiredis (>1.0.0)"]
+ocsp = ["cryptography (>=36.0.1)", "pyopenssl (==20.0.1)", "requests (>=2.26.0)"]
 
 [[package]]
 name = "regex"
@@ -4019,4 +4111,4 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11,<3.12"
-content-hash = "f4de310999d3a3df5ebe141354e4f3ffbc18dbaf5342be74317f5bf5b7992012"
+content-hash = "abca77c68ad71dd9b843ad208c2a84800b1d4e78def30daa9a85b86cb4131f22"
