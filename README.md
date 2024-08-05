@@ -1,4 +1,7 @@
-# iReal
+# iREAL
+
+This is the reposistory for the _iREAL: Inclusive Requirements Elicitation for
+AI in Libraries to Support Respectful Management of Indigenous Knowledges_ project.
 
 ## Getting Started
 
