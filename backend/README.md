@@ -166,7 +166,7 @@ Sample queries can be found in [Sharepoint](<https://emckclac.sharepoint.com/:w:
   > RAG 4.284:  Among the known teachers at the Nanima Aboriginal School are Miss. Rose Taylor and Mrs. E. M Higgins. Mrs. Higgins had previously taught at this school before moving on to teach at Walmer Public School, and Miss. Taylor was in the position of Teacher at the time when a replacement was being considered.
 - **What were the health conditions at Aboriginal schools?**
 
-  **(B)ase, [R\]etriever, Retr(y), (H)yDe: **
+  **(B)ase, [R\]etriever, Retr(y), (H)yDe:**
 
   >RAG 0.521:  The provided context does not directly mention the health conditions at all Aboriginal schools in New South Wales. However, it does offer some insights into the living conditions of students at specific schools, which can indirectly suggest something about their overall health.
   >
