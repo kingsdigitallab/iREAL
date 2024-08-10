@@ -1,6 +1,6 @@
 # iREAL - Backend
 
-This backeng is a RAG system to answer questions about school records.
+This backeng is a RAG system to answer questions about a set of historical records about NSW schools that served Indigenous Australian communities.
 
 The RAG is built using [LLamaIndex](https://www.llamaindex.ai),
 [Ollama](https://ollama.com) to run a local LLM, and the
@@ -96,14 +96,13 @@ graph LR
 
 #### Metadata extraction
 
-Several metadata are being [extracted](https://docs.llamaindex.ai/en/stable/module_guides/indexing/metadata_extraction/) to enrich the index. Below are more
+Several types of metadata are being [extracted](https://docs.llamaindex.ai/en/stable/module_guides/indexing/metadata_extraction/) to enrich the index. Below are more
 details about each extraction.
 
 ##### Entity extraction
 
 Entities are extracted using the [default configuration](https://docs.llamaindex.ai/en/stable/examples/metadata_extraction/EntityExtractionClimate). The default
-model extracts multiple entity types, of relevance for the project are: persons,
-organisations, locations, biological, diseases, times.
+model extracts multiple entity types; of relevance for the project are: persons, organisations, locations, diseases, times.
 
 ##### Geocoding of location entities
 
@@ -167,7 +166,7 @@ Sample queries can be found in [Sharepoint](<https://emckclac.sharepoint.com/:w:
   > RAG 4.284:  Among the known teachers at the Nanima Aboriginal School are Miss. Rose Taylor and Mrs. E. M Higgins. Mrs. Higgins had previously taught at this school before moving on to teach at Walmer Public School, and Miss. Taylor was in the position of Teacher at the time when a replacement was being considered.
 - **What were the health conditions at Aboriginal schools?**
 
-  **(B)ase, [R\]etriever, Retr(y), (H)yDe: h**
+  **(B)ase, [R\]etriever, Retr(y), (H)yDe: **
 
   >RAG 0.521:  The provided context does not directly mention the health conditions at all Aboriginal schools in New South Wales. However, it does offer some insights into the living conditions of students at specific schools, which can indirectly suggest something about their overall health.
   >
@@ -181,7 +180,7 @@ Sample queries can be found in [Sharepoint](<https://emckclac.sharepoint.com/:w:
   **(B)ase, [R\]etriever, Retr(y), (H)yDe:**
 
   >RAG 4.767:  Yes, in the provided context, there are references to Aboriginal reserves being located near state-run institutions. The Summer Vale Aboriginal School is situated on an Aboriginal reserve (mentioned multiple times), and it seems that Kinchela Aboriginal School also operates near an Aboriginal reserve or station, as stated in the excerpt from the Kinchela Aboriginal file.
-- **Researcher: who were the teachers at brungle?**
+- **Researcher: who were the teachers at Brungle?**
   
   **(B)ase, [R]etriever, Retr(y), (H)yDe:**
 
@@ -222,13 +221,11 @@ Sample queries can be found in [Sharepoint](<https://emckclac.sharepoint.com/:w:
   sequential subqueries until a final answer is returned. This is more expensive
   to run.
 - Had issues with `elasticsearch` both with the index creation and querying. The
-  indexing was quite alot slower and the querying was always returning a score
+  indexing was quite a lot slower and the querying always returned a score
   of `1` even when the query was not a match.
-- _Semantic drift_/_retrieval degradation_ seems to happen with this dataset the
-  more the number of documents increase. This could be due to the fact that the
-  document chunks are not suitable for indexing, or that they might be too
-  similar to each other.
+- _Semantic drift_/_retrieval degradation_ seems to happen with this dataset as the number of documents indexed increased. This could be due to the fact that the
+  document chunks are not suitable for indexing, or that they might be too similar to each other.
   - The [`RetryQueryEngine`](https://docs.llamaindex.ai/en/stable/examples/evaluation/RetryQuery/#retry-query-engine) is used to retry the query if the response is not satisfactory.
-  - Using hybrid search, using the vector store and [`BM25 retriever`](https://docs.llamaindex.ai/en/stable/examples/retrievers/bm25_retriever/) mitigates
-  some of the issues with _semantic drift_, particularly when the queris mention
+  - Using hybrid search, the vector store and [`BM25 retriever`](https://docs.llamaindex.ai/en/stable/examples/retrievers/bm25_retriever/) mitigates
+  some of the issues with _semantic drift_, particularly when the queries mention
   specific entity names.
