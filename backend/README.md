@@ -63,7 +63,7 @@ graph LR
     B --> C[Start Docker Compose]
     B --> D[Start Ollama]
     B --> E[Index data]
-    E --> F[Chat with data]
+    E --> F[Query data]
 ```
 
 ### Indexing
@@ -71,16 +71,15 @@ graph LR
 ```mermaid
 graph LR
     A[Documents] --> B[Document splitter]
-    B --> C[Chunking]
-    C <--> C1[Sentence splitter]
-    B --> M1[Entity extraction]
-    B --> M2[Title extraction]
-    B --> M3[Questions answered extraction]
-    B --> M4[Summary extraction]
-    B --> M5[Keywords extraction]
-    B --> M6[Topic extraction]
-    B --> M7[Geocoding of location entities]
-    C --> E[Embedding]
+    B --> N[Nodes]
+    N --> E[Embedding]
+    N --> M1[Entity extraction]
+    N --> M2[Title extraction]
+    N --> M3[Questions answered extraction]
+    N --> M4[Summary extraction]
+    N --> M5[Keywords extraction]
+    N --> M6[Topic extraction]
+    N --> M7[Geocoding of location entities]
     E <--> O[Ollama embeddings]
     M1 --> M[Metadata]
     M2 --> M
@@ -91,7 +90,7 @@ graph LR
     M7 --> M
     E --> V[Vector store]
     M --> V
-    B --> BM25
+    N --> BM25
     BM25 ---> F[File store]
 ```
 
