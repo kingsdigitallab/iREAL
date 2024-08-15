@@ -23,7 +23,7 @@
 	<div aria-busy="true">Loading data...</div>
 {:then results}
 	<hgroup>
-		<h2>Dashboard</h2>
+		<h1>Dashboard</h1>
 		<p>
 			A dashboard for displaying and exploring school related data as exported by the AI/ML
 			processes.
@@ -31,7 +31,7 @@
 	</hgroup>
 	<section>
 		<hgroup>
-			<h3>Summary</h3>
+			<h2>Summary</h2>
 			<p>
 				Overview of the data extracted from the school records. Shows couts for school records,
 				keywords, topics, people, organisations and places.
@@ -84,14 +84,14 @@
 	</section>
 	<section>
 		<hgroup>
-			<h3>Distribution of the extracted keywords</h3>
+			<h2>Distribution of the extracted keywords</h2>
 			<p>Explore a visualisation of the distribution of extracted keywords.</p>
 		</hgroup>
 		<FacetDistribution data={results.keywords} label="keyword" />
 	</section>
 	<section>
 		<hgroup>
-			<h3>Distribution of the extracted topics</h3>
+			<h2>Distribution of the extracted topics</h2>
 			<p>Explore a visualisation of the distribution of extracted topics.</p>
 		</hgroup>
 		<FacetDistribution data={results.topics} label="topic" />
