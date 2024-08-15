@@ -99,7 +99,7 @@
 	.map {
 		border: 1px solid var(--pico-muted-border-color);
 		font-family: var(--pico-font-family);
-		height: 400px;
+		height: 600px;
 		width: 100%;
 
 		& .maplibregl-popup-content {
