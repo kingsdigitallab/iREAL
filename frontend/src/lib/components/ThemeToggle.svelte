@@ -50,12 +50,28 @@
 	</script>
 </svelte:head>
 
-<div class="theme-toggle">
-	<a on:click={handleThemeToggle} aria-label="Toggle colour scheme">
-		{#if theme === 'light'}
-			<MoonIcon />
-		{:else}
-			<SunIcon />
-		{/if}
-	</a>
-</div>
+<button on:click={handleThemeToggle} aria-label="Toggle colour scheme">
+	{#if theme === 'light'}
+		<MoonIcon />
+	{:else}
+		<SunIcon />
+	{/if}
+</button>
+
+<style>
+	button {
+		background: none;
+		border: none;
+		color: var(--pico-primary);
+		cursor: pointer;
+		display: inline;
+		margin: 0;
+		padding: 0;
+		text-decoration: underline;
+	}
+
+	button:hover {
+		color: var(--pico-primary-hover);
+		text-decoration: none;
+	}
+</style>
