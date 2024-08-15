@@ -89,37 +89,25 @@ export function getPeople(
 	return people;
 }
 
-export function getPlaces(nodes: Node[], minCount: number = 2): Facet[] {
-	console.log(
-		_(nodes)
-			.filter((n) => !_.isEmpty(n.geo))
-			.flatMap((n) =>
-				// @ts-expect-error: No overload matches this call.
-				Object.entries(n.geo).map(([place, coords]) => ({
-					name: place,
-					coords,
-					school: n.school
-				}))
-			)
-			.groupBy('name')
-			.entries()
-			.map(([place, entries]) => ({
-				name: place,
-				coords: entries[0].coords,
-				count: entries.length,
-				schools: _.uniq(entries.map((entry) => entry.school))
-			}))
-			.filter((place) => place.count >= minCount)
-			.value()
-	);
+export function getPlaces(nodes: Node[], minCount: number = 1): Facet[] {
 	const places = _(nodes)
-		.flatMap('geo')
-		.filter((geo) => !_.isEmpty(geo))
-		.flatMap((geo) => Object.entries(geo))
-		.map(([place, coords]) => ({ name: place, coords }))
+		.filter((n) => !_.isEmpty(n.geo))
+		.flatMap((n) =>
+			// @ts-expect-error: No overload matches this call.
+			Object.entries(n.geo).map(([place, coords]) => ({
+				name: place,
+				coords,
+				school: n.school
+			}))
+		)
 		.groupBy('name')
 		.entries()
-		.map(([place, entries]) => ({ name: place, coords: entries[0].coords, count: entries.length }))
+		.map(([place, entries]) => ({
+			name: place,
+			coords: entries[0].coords,
+			count: entries.length,
+			schools: _.uniq(entries.map((entry) => entry.school))
+		}))
 		.filter((place) => place.count >= minCount)
 		.value();
 

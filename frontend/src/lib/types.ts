@@ -44,10 +44,13 @@ export type School = {
 	name: string;
 	slug: string;
 	keywords: string[];
+	places: string[];
 	topics: string[];
 };
 
 export type Facet = {
 	name: string;
 	count: number;
+	schools?: string[];
+	coords?: [number, number];
 };
