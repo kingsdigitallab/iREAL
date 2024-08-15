@@ -2,10 +2,8 @@
 	import ThemeToggle from '$lib/components/ThemeToggle.svelte';
 	import * as config from '$lib/config';
 	import { GithubIcon } from 'lucide-svelte';
-
+	import { dev } from '$app/environment';
 	import '@picocss/pico/css/pico.amber.css';
-
-	const version = import.meta.env.APP_VERSION;
 </script>
 
 <svelte:head>
@@ -16,7 +14,10 @@
 	<header class="container">
 		<nav>
 			<ul>
-				<li><a href="/"><strong>{config.title}</strong></a></li>
+				<li>
+					<a href="/"><strong>{config.title}</strong></a>
+					{#if dev}<mark>dev</mark>{/if}
+				</li>
 			</ul>
 			<ul>
 				<li>
