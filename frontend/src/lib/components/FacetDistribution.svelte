@@ -25,6 +25,7 @@
 		Title,
 		Tooltip
 	);
+	Chart.defaults.font.family = 'Source Sans Pro';
 
 	export let data: Facet[];
 	export let label: string;
