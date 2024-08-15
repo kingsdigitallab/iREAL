@@ -20,9 +20,7 @@
 	});
 </script>
 
-{#await data.results}
-	<div aria-busy="true">Loading data...</div>
-{:then results}
+<section>
 	<hgroup>
 		<h1>Dashboard</h1>
 		<p>
@@ -30,6 +28,11 @@
 			processes.
 		</p>
 	</hgroup>
+</section>
+
+{#await data.results}
+	<section aria-busy="true">Loading data...</section>
+{:then results}
 	<section>
 		<hgroup>
 			<h2>Summary</h2>
@@ -116,6 +119,7 @@
 	.table-pagination {
 		align-items: center;
 		display: flex;
+		color: var(--pico-color);
 		justify-content: space-between;
 	}
 </style>
