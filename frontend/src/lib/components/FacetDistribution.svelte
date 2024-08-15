@@ -34,7 +34,7 @@
 	let minCount = 2;
 
 	$: if (data && chartData) {
-		filteredData = data?.filter((item) => item.count > minCount);
+		filteredData = data?.filter((item) => item.count >= minCount);
 		chartData.labels = filteredData.map((item) => item.name);
 		chartData.datasets[0].data = filteredData.map((item) => item.count);
 	}
@@ -55,7 +55,7 @@
 
 <label
 	>Minimum {label} count: <strong>{minCount}</strong>
-	<input type="range" name="minCount" id="minCount" bind:value={minCount} min="1" max="10" />
+	<input type="range" name="minCount" id="minCount" bind:value={minCount} min="2" max="10" />
 </label>
 {#if chartData}
 	<Bar data={chartData} options={{ responsive: true }} />
