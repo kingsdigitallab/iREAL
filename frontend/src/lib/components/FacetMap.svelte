@@ -86,6 +86,7 @@
 				class:sm={marker.markerSize === 'sm'}
 				class:md={marker.markerSize === 'md'}
 				class:lg={marker.markerSize === 'lg'}
+				role="complementary"
 			>
 				{#if marker.numberOfSchools > 1}
 					<span>{marker.numberOfSchools}</span>
