@@ -3,8 +3,11 @@
 	import * as config from '$lib/config';
 	import { GithubIcon } from 'lucide-svelte';
 	import { dev } from '$app/environment';
+
 	import '@picocss/pico/css/pico.css';
 	import '@picocss/pico/css/pico.colors.css';
+
+	import '../app.css';
 </script>
 
 <svelte:head>
