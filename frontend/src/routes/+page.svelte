@@ -63,6 +63,7 @@
 					<tr>
 						<th>School</th>
 						<th>Keywords</th>
+						<th>Places</th>
 						<th>Topics</th>
 					</tr>
 				</thead>
@@ -71,6 +72,7 @@
 						<tr>
 							<td>{school.name}</td>
 							<td>{school.keywords.join(', ')}</td>
+							<td>{school.places.join(', ')}</td>
 							<td>{school.topics.join(', ')}</td>
 						</tr>
 					{/each}

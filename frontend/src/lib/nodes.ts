@@ -32,6 +32,7 @@ function getSchools(nodes: Node[]): School[] {
 			name: school,
 			slug: slugify(school),
 			keywords: _.orderBy(getKeywords(nodes).map((keyword) => keyword.name)),
+			places: _.orderBy(getPlaces(nodes).map((place) => place.name)),
 			topics: _.orderBy(getTopics(nodes).map((topic) => topic.name))
 		}))
 		.value();
@@ -89,6 +90,28 @@ export function getPeople(
 }
 
 export function getPlaces(nodes: Node[], minCount: number = 2): Facet[] {
+	console.log(
+		_(nodes)
+			.filter((n) => !_.isEmpty(n.geo))
+			.flatMap((n) =>
+				// @ts-expect-error: No overload matches this call.
+				Object.entries(n.geo).map(([place, coords]) => ({
+					name: place,
+					coords,
+					school: n.school
+				}))
+			)
+			.groupBy('name')
+			.entries()
+			.map(([place, entries]) => ({
+				name: place,
+				coords: entries[0].coords,
+				count: entries.length,
+				schools: _.uniq(entries.map((entry) => entry.school))
+			}))
+			.filter((place) => place.count >= minCount)
+			.value()
+	);
 	const places = _(nodes)
 		.flatMap('geo')
 		.filter((geo) => !_.isEmpty(geo))

@@ -8,7 +8,7 @@ export type Node = {
 	events?: string[];
 	excerpt_keywords: string;
 	file: string;
-	geo?: number[];
+	geo?: GeoData;
 	locations?: string[];
 	media?: string[];
 	next_section_summary?: string;
@@ -23,6 +23,12 @@ export type Node = {
 	topics: string[];
 };
 
+type GeoData = {
+	geo: {
+		[placeName: string]: [number, number];
+	};
+};
+
 export type Result = {
 	nodes: Node[];
 	schools: School[];
@@ -30,7 +36,7 @@ export type Result = {
 	keywords: Facet[];
 	organisations: { organisation: string; count: number }[];
 	people: { person: string; count: number }[];
-	places: { place: string; count: number }[];
+	places: Facet[];
 	topics: Facet[];
 };
 
