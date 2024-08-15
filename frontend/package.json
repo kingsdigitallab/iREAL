@@ -43,6 +43,7 @@
 	"type": "module",
 	"dependencies": {
 		"@picocss/pico": "^2.0.6",
-		"lucide-svelte": "^0.427.0"
+		"lucide-svelte": "^0.427.0",
+		"maplibre-gl": "^4.5.2"
 	}
 }

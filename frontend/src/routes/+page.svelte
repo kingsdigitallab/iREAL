@@ -5,6 +5,7 @@
 	import { onMount } from 'svelte';
 	import type { PageData } from './$types';
 	import SummaryCard from '$lib/components/SummaryCard.svelte';
+	import FacetMap from '$lib/components/FacetMap.svelte';
 
 	export let data: PageData;
 
@@ -97,6 +98,13 @@
 			<p>Explore a visualisation of the distribution of extracted topics.</p>
 		</hgroup>
 		<FacetDistribution data={results.topics} label="topic" />
+	</section>
+	<section>
+		<hgroup>
+			<h2>Map of the extracted places</h2>
+			<p>Explore a visualisation of the geographical distribution of extracted places.</p>
+		</hgroup>
+		<FacetMap places={results.places} />
 	</section>
 {/await}
 

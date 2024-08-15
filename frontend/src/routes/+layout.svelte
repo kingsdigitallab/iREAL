@@ -3,7 +3,8 @@
 	import * as config from '$lib/config';
 	import { GithubIcon } from 'lucide-svelte';
 	import { dev } from '$app/environment';
-	import '@picocss/pico/css/pico.amber.css';
+	import '@picocss/pico/css/pico.css';
+	import '@picocss/pico/css/pico.colors.css';
 </script>
 
 <svelte:head>
@@ -28,7 +29,7 @@
 		</nav>
 	</header>
 	<main class="container"><slot /></main>
-	<footer class="container"></footer>
+	<footer class="container"><a href="/"><small>{config.title}</small></a></footer>
 </div>
 
 <style>
@@ -40,10 +41,16 @@
 	}
 
 	header {
-		border-bottom: 1px solid #ccc;
+		border-bottom: 1px solid var(--pico-primary-border);
 	}
 
 	main {
 		margin-block: var(--pico-block-spacing-vertical);
+	}
+
+	footer {
+		border-top: 1px solid var(--pico-muted-border-color);
+		margin-block: var(--pico-block-spacing-vertical);
+		padding-block: var(--pico-block-spacing-vertical);
 	}
 </style>
