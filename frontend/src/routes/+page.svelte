@@ -77,7 +77,7 @@
 				</tbody>
 			</table>
 			<div class="table-pagination">
-				<RowCount {handler} />
+				<section><RowCount {handler} /></section>
 				<Pagination {handler} />
 			</div>
 		{/if}
@@ -102,6 +102,6 @@
 	.table-pagination {
 		align-items: center;
 		display: flex;
-		justify-content: center;
+		justify-content: space-between;
 	}
 </style>
