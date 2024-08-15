@@ -5,5 +5,5 @@ AI in Libraries to Support Respectful Management of Indigenous Knowledges_ proje
 
 ## Getting Started
 
-1. Set up the backend as described in the [backend README](./backend/README.md).
-1. Coming soon...
+1. Set up the backend as described in the [backend README](./backend/README.md)
+1. Set up the frontend as described in the [frontend README](./frontend/README.md).
