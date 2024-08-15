@@ -34,7 +34,7 @@
 		<hgroup>
 			<h2>Summary</h2>
 			<p>
-				Overview of the data extracted from the school records. Shows couts for school records,
+				Overview of the data extracted from the school records. Shows counts for school records,
 				keywords, topics, people, organisations and places.
 			</p>
 		</hgroup>
@@ -109,6 +109,10 @@
 {/await}
 
 <style>
+	tbody {
+		font-size: 0.8rem;
+	}
+
 	.table-pagination {
 		align-items: center;
 		display: flex;
