@@ -1,4 +1,5 @@
 <script lang="ts">
+	import BaseLink from '$lib/components/BaseLink.svelte';
 	import ThemeToggle from '$lib/components/ThemeToggle.svelte';
 	import * as config from '$lib/config';
 	import { GithubIcon } from 'lucide-svelte';
@@ -19,7 +20,7 @@
 		<nav>
 			<ul>
 				<li>
-					<a href="/"><strong>{config.title}</strong></a>
+					<BaseLink href="/"><strong>{config.title}</strong></BaseLink>
 					{#if dev}<mark>dev</mark>{/if}
 				</li>
 			</ul>
@@ -32,7 +33,7 @@
 		</nav>
 	</header>
 	<main class="container"><slot /></main>
-	<footer class="container"><a href="/"><small>{config.title}</small></a></footer>
+	<footer class="container"><BaseLink href="/"><small>{config.title}</small></BaseLink></footer>
 </div>
 
 <style>

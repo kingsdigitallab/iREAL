@@ -31,7 +31,7 @@ type GeoData = {
 
 export type Result = {
 	nodes: Node[];
-	schools: School[];
+	schools: Promise<School[]>;
 	schoolsNames: string[];
 	keywords: Facet[];
 	organisations: { organisation: string; count: number }[];
@@ -42,6 +42,7 @@ export type Result = {
 
 export type School = {
 	name: string;
+	file: string;
 	slug: string;
 	keywords: string[];
 	places: string[];
