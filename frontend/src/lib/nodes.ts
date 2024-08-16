@@ -24,12 +24,13 @@ function getSchoolsNames(nodes: Node[]): string[] {
 	return _.uniqBy(nodes, 'school').map((node) => node.school);
 }
 
-function getSchools(nodes: Node[]): School[] {
+export async function getSchools(nodes: Node[]): Promise<School[]> {
 	return _(nodes)
 		.groupBy('school')
 		.entries()
 		.map(([school, nodes]) => ({
 			name: school,
+			file: nodes[0].file.replace('.json', ''),
 			slug: slugify(school),
 			keywords: _.orderBy(getKeywords(nodes).map((keyword) => keyword.name)),
 			places: _.orderBy(getPlaces(nodes).map((place) => place.name)),

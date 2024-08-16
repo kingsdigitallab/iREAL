@@ -6,6 +6,7 @@
 	import type { PageData } from './$types';
 	import SummaryCard from '$lib/components/SummaryCard.svelte';
 	import FacetMap from '$lib/components/FacetMap.svelte';
+	import BaseLink from '$lib/components/BaseLink.svelte';
 
 	export let data: PageData;
 
@@ -14,8 +15,9 @@
 
 	onMount(async () => {
 		const results = await data.results;
+		const schools = await results.schools;
 
-		handler = new DataHandler(results.schools, { rowsPerPage: 5 });
+		handler = new DataHandler(schools, { rowsPerPage: 5 });
 		rows = handler.getRows();
 	});
 </script>
@@ -28,6 +30,18 @@
 			processes.
 		</p>
 	</hgroup>
+</section>
+<section>
+	<h2>About the school records</h2>
+	<p>The school records contain information about:</p>
+	<ul>
+		<li>school details and timeline</li>
+		<li>relationshop between Deparment of Public Instruction and the Aboriginal Protection Board (APB)</li>
+		<li>teacher's information</li>
+		<li>conditions at the schools</li>
+		<li>curriculum and resources</li>
+		<li>community attitutes</li>
+	</ul>
 </section>
 
 {#await data.results}
@@ -61,7 +75,6 @@
 					keywords, and topics.
 				</p>
 			</hgroup>
-
 			<table>
 				<thead>
 					<tr>
@@ -74,7 +87,7 @@
 				<tbody>
 					{#each $rows as school}
 						<tr>
-							<td>{school.name}</td>
+							<td><BaseLink href="schools/{school.file}">{school.name}</BaseLink></td>
 							<td>{school.keywords.join(', ')}</td>
 							<td>{school.places.join(', ')}</td>
 							<td>{school.topics.join(', ')}</td>
