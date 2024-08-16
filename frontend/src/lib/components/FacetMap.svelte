@@ -62,7 +62,7 @@
 			container: mapContainer,
 			style: 'https://api.maptiler.com/maps/positron/style.json?key=brTBbnRxuiKp6PgjwFPr',
 			center: [146.921099, -31.2532183],
-			zoom: 4
+			zoom: 5
 		});
 
 		map.addControl(new NavigationControl({ showCompass: true, showZoom: true }));
