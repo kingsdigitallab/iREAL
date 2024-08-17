@@ -1,26 +1,10 @@
 <script lang="ts">
-	import BaseLink from '$lib/components/BaseLink.svelte';
-	import FacetDistribution from '$lib/components/FacetDistribution.svelte';
-	import FacetMap from '$lib/components/FacetMap.svelte';
 	import SummaryCard from '$lib/components/SummaryCard.svelte';
 	import * as config from '$lib/config';
-	import { DataHandler, Pagination, RowCount } from '@vincjo/datatables';
 	import _ from 'lodash';
-	import { onMount } from 'svelte';
 	import type { PageData } from './$types';
 
 	export let data: PageData;
-
-	let handler: DataHandler;
-	let rows;
-
-	onMount(async () => {
-		const results = await data.results;
-		const schools = await results.schools;
-
-		handler = new DataHandler(schools, { rowsPerPage: 5 });
-		rows = handler.getRows();
-	});
 </script>
 
 <section class="hero">
