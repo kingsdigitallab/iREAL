@@ -25,23 +25,17 @@
 <section>
 	<hgroup>
 		<h1>Dashboard</h1>
-		<p>
-			A dashboard for displaying and exploring school related data as exported by the AI/ML
-			processes.
-		</p>
+		<p>Displaying and exploring data from 49 school records in New South Wales, Australia. Using AI/ML processes, data was extracted from the original record information containing: </p>
+		<ul>
+			<li>school details and timeline</li>
+			<li>relationship between Department of Public Instruction and the Aboriginal Protection Board (APB)</li>
+			<li>teacher's information</li>
+			<li>conditions at the schools</li>
+			<li>curriculum and resources</li>
+			<li>community attitudes</li>
+		</ul>
+		<p>The aim is to....</p>
 	</hgroup>
-</section>
-<section>
-	<h2>About the school records</h2>
-	<p>The school records contain information about:</p>
-	<ul>
-		<li>school details and timeline</li>
-		<li>relationshop between Deparment of Public Instruction and the Aboriginal Protection Board (APB)</li>
-		<li>teacher's information</li>
-		<li>conditions at the schools</li>
-		<li>curriculum and resources</li>
-		<li>community attitutes</li>
-	</ul>
 </section>
 
 {#await data.results}
@@ -49,11 +43,7 @@
 {:then results}
 	<section>
 		<hgroup>
-			<h2>Summary</h2>
-			<p>
-				Overview of the data extracted from the school records. Shows counts for school records,
-				keywords, topics, people, organisations and places.
-			</p>
+			<h2>Extracted Data Summary</h2>
 		</hgroup>
 		<div class="grid">
 			<SummaryCard title="School records" value={results.schoolsNames.length} />
