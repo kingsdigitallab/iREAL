@@ -42,7 +42,6 @@ export type Result = {
 
 export type School = {
 	name: string;
-	file: string;
 	slug: string;
 	keywords: string[];
 	places: string[];

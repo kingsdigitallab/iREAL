@@ -1,12 +1,13 @@
 <script lang="ts">
-	import { DataHandler, Pagination, RowCount } from '@vincjo/datatables';
+	import BaseLink from '$lib/components/BaseLink.svelte';
 	import FacetDistribution from '$lib/components/FacetDistribution.svelte';
+	import FacetMap from '$lib/components/FacetMap.svelte';
+	import SummaryCard from '$lib/components/SummaryCard.svelte';
+	import * as config from '$lib/config';
+	import { DataHandler, Pagination, RowCount } from '@vincjo/datatables';
 	import _ from 'lodash';
 	import { onMount } from 'svelte';
 	import type { PageData } from './$types';
-	import SummaryCard from '$lib/components/SummaryCard.svelte';
-	import FacetMap from '$lib/components/FacetMap.svelte';
-	import BaseLink from '$lib/components/BaseLink.svelte';
 
 	export let data: PageData;
 
@@ -22,19 +23,14 @@
 	});
 </script>
 
-<section>
+<section class="hero">
 	<hgroup>
-		<h1>Dashboard</h1>
-		<p>Displaying and exploring data from 49 school records in New South Wales, Australia. Using AI/ML processes, data was extracted from the original record information containing: </p>
-		<ul>
-			<li>school details and timeline</li>
-			<li>relationship between Department of Public Instruction and the Aboriginal Protection Board (APB)</li>
-			<li>teacher's information</li>
-			<li>conditions at the schools</li>
-			<li>curriculum and resources</li>
-			<li>community attitudes</li>
-		</ul>
-		<p>The aim is to....</p>
+		<h1>{config.description}</h1>
+		<p>
+			This dashboard presents data from 49 Aboriginal schools in New South Wales, Australia,
+			spanning the late 19th to early 20th century. The information has been extracted from
+			historical records using AI and machine learning techniques.
+		</p>
 	</hgroup>
 </section>
 
@@ -43,86 +39,23 @@
 {:then results}
 	<section>
 		<hgroup>
-			<h2>Extracted Data Summary</h2>
+			<h2>Data overview</h2>
 		</hgroup>
 		<div class="grid">
-			<SummaryCard title="School records" value={results.schoolsNames.length} />
-			<SummaryCard title="Keywords" value={results.keywords.length} />
-			<SummaryCard title="Topics" value={results.topics.length} />
+			<SummaryCard title="School records" value={results.schoolsNames.length} link="schools" />
+			<SummaryCard title="Keywords" value={results.keywords.length} link="keywords" />
+			<SummaryCard title="Topics" value={results.topics.length} link="topics" />
 		</div>
 		<div class="grid">
 			<SummaryCard title="People" value={results.people.length} />
 			<SummaryCard title="Organisations" value={results.organisations.length} />
-			<SummaryCard title="Places" value={results.places.length} />
+			<SummaryCard title="Places" value={results.places.length} link="map" />
 		</div>
-	</section>
-	<section>
-		{#if $rows}
-			<hgroup>
-				<h3>School records table</h3>
-				<p>
-					A paginated table of the school records. Each row shows the school name, associated
-					keywords, and topics.
-				</p>
-			</hgroup>
-			<table>
-				<thead>
-					<tr>
-						<th>School</th>
-						<th>Keywords</th>
-						<th>Places</th>
-						<th>Topics</th>
-					</tr>
-				</thead>
-				<tbody>
-					{#each $rows as school}
-						<tr>
-							<td><BaseLink href="schools/{school.file}">{school.name}</BaseLink></td>
-							<td>{school.keywords.join(', ')}</td>
-							<td>{school.places.join(', ')}</td>
-							<td>{school.topics.join(', ')}</td>
-						</tr>
-					{/each}
-				</tbody>
-			</table>
-			<div class="table-pagination">
-				<section><RowCount {handler} /></section>
-				<Pagination {handler} />
-			</div>
-		{/if}
-	</section>
-	<section>
-		<hgroup>
-			<h2>Distribution of the extracted keywords</h2>
-			<p>Explore a visualisation of the distribution of extracted keywords.</p>
-		</hgroup>
-		<FacetDistribution data={results.keywords} label="keyword" />
-	</section>
-	<section>
-		<hgroup>
-			<h2>Distribution of the extracted topics</h2>
-			<p>Explore a visualisation of the distribution of extracted topics.</p>
-		</hgroup>
-		<FacetDistribution data={results.topics} label="topic" />
-	</section>
-	<section>
-		<hgroup>
-			<h2>Map of the extracted places</h2>
-			<p>Explore a visualisation of the geographical distribution of extracted places.</p>
-		</hgroup>
-		<FacetMap places={results.places} />
 	</section>
 {/await}
 
 <style>
-	tbody {
-		font-size: 0.8rem;
-	}
-
-	.table-pagination {
-		align-items: center;
-		display: flex;
-		color: var(--pico-color);
-		justify-content: space-between;
+	.hero {
+		padding-block: calc(2 * var(--pico-block-spacing-vertical));
 	}
 </style>

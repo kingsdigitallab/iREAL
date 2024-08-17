@@ -3,7 +3,7 @@
 
 	export let data: PageData;
 
-	let { slug, meta, content } = data;
+	let { slug, content } = data;
 </script>
 
 <article>

@@ -5,7 +5,7 @@ import type { EntryGenerator, PageLoad } from './$types';
 
 export const load = (async ({ params }) => {
 	try {
-		const school = await import(`../../../data/schools/${params.slug}.md`);
+		const school = await import(`$data/schools/${params.slug}.md`);
 
 		return {
 			slug: params.slug,
@@ -20,5 +20,5 @@ export const entries = (async () => {
 	const results = await getResults();
 	const schools = await results.schools;
 
-	return schools.map((school: School) => ({ slug: school.file }));
+	return schools.map((school: School) => ({ slug: school.slug }));
 }) satisfies EntryGenerator;
