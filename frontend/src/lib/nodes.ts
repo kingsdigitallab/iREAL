@@ -1,10 +1,9 @@
 import data from '$data/processed_data_20240804124721.json';
-import slugify from '@sindresorhus/slugify';
 import _ from 'lodash';
 import type { Facet, Node, Result, School } from './types';
 
 export async function getResults(): Promise<Result> {
-	let nodes = data as Node[];
+	let nodes = await getAllNodes();
 
 	nodes = nodes.sort((a, b) => a.school.localeCompare(b.school));
 
@@ -20,6 +19,10 @@ export async function getResults(): Promise<Result> {
 	};
 }
 
+export async function getAllNodes(): Promise<Node[]> {
+	return data as Node[];
+}
+
 function getSchoolsNames(nodes: Node[]): string[] {
 	return _.uniqBy(nodes, 'school').map((node) => node.school);
 }
@@ -30,8 +33,7 @@ export async function getSchools(nodes: Node[]): Promise<School[]> {
 		.entries()
 		.map(([school, nodes]) => ({
 			name: school,
-			file: nodes[0].file.replace('.json', ''),
-			slug: slugify(school),
+			slug: nodes[0].file.replace('.json', ''),
 			keywords: _.orderBy(getKeywords(nodes).map((keyword) => keyword.name)),
 			places: _.orderBy(getPlaces(nodes).map((place) => place.name)),
 			topics: _.orderBy(getTopics(nodes).map((topic) => topic.name))

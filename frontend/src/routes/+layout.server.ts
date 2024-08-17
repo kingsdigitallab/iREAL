@@ -1,8 +1,8 @@
 import { getResults } from '$lib/nodes';
-import type { PageServerLoad } from './$types';
+import type { LayoutServerLoad } from './$types';
 
 export const load = (async () => {
 	return {
 		results: getResults()
 	};
-}) satisfies PageServerLoad;
+}) satisfies LayoutServerLoad;

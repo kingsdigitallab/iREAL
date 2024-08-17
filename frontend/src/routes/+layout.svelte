@@ -25,6 +25,11 @@
 				</li>
 			</ul>
 			<ul>
+				<li><BaseLink href="schools" navItem={true}>School records</BaseLink></li>
+				<li><BaseLink href="keywords" navItem={true}>Keywords</BaseLink></li>
+				<li><BaseLink href="topics" navItem={true}>Topics</BaseLink></li>
+				<li><BaseLink href="map" navItem={true}>Map</BaseLink></li>
+				<li class="separator">|</li>
 				<li>
 					<a href={config.github} aria-label="GitHub repository"><GithubIcon /></a>
 				</li>
@@ -46,6 +51,10 @@
 
 	header {
 		border-bottom: 1px solid var(--pico-primary-border);
+	}
+
+	.separator {
+		color: var(--pico-muted-border-color);
 	}
 
 	main {
