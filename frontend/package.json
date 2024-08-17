@@ -22,7 +22,6 @@
 		"@sveltejs/vite-plugin-svelte": "^3.0.0",
 		"@types/eslint": "^9.6.0",
 		"@types/lodash": "^4.17.7",
-		"@vincjo/datatables": "^1.14.10",
 		"chart.js": "^4.4.3",
 		"eslint": "^9.0.0",
 		"eslint-config-prettier": "^9.1.0",
