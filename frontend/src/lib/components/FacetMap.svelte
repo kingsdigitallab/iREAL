@@ -73,7 +73,6 @@
 
 <div class="map" class:hidden={!show} bind:this={mapContainer}>
 	{#if map && markers}
-		{console.log('markers', markers)}
 		{#each markers as marker}
 			<div
 				use:addMarkerAction={{
