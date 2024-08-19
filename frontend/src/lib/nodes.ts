@@ -129,3 +129,8 @@ export function getTopics(nodes: Node[], minCount: number = 2): Facet[] {
 
 	return topics;
 }
+
+export async function getSchoolNodes(slug: string): Promise<Node[]> {
+	const nodes = await getAllNodes();
+	return nodes.filter((node) => node.file === `${slug}.json`);
+}
