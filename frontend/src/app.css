@@ -12,26 +12,6 @@
 	--mark-times: #797596;
 }
 
-/* @media (prefers-color-scheme: light) {
-	:root {
-		data-theme: light;
-	}
-}
-
-@media (prefers-color-scheme: dark) {
-	:root {
-		data-theme: dark;
-
-		--mark-locations: red;
-	}
-}
-
-[data-theme='dark'] {
-	data-theme: dark;
-
-	--mark-locations: red;
-} */
-
 html,
 body {
 	height: 100%;
