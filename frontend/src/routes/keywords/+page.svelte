@@ -12,5 +12,10 @@
 		<h1>Distribution of the extracted keywords</h1>
 		<p>Explore a visualisation of the distribution of extracted keywords.</p>
 	</hgroup>
-	<FacetDistribution data={results.keywords} label="keyword" />
+	<FacetDistribution
+		data={results.keywords}
+		schools={results.schools}
+		label="keyword"
+		field="keywords"
+	/>
 </section>

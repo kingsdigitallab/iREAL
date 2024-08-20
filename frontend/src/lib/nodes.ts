@@ -10,7 +10,7 @@ export async function getResults(): Promise<Result> {
 	return {
 		nodes,
 		schoolsNames: getSchoolsNames(nodes),
-		schools: getSchools(nodes),
+		schools: await getSchools(nodes),
 		keywords: getKeywords(nodes),
 		organisations: getOrganisations(nodes),
 		people: getPeople(nodes),
@@ -34,9 +34,9 @@ export async function getSchools(nodes: Node[]): Promise<School[]> {
 		.map(([school, nodes]) => ({
 			name: school,
 			slug: nodes[0].file.replace('.json', ''),
-			keywords: _.orderBy(getKeywords(nodes).map((keyword) => keyword.name)),
-			places: _.orderBy(getPlaces(nodes).map((place) => place.name)),
-			topics: _.orderBy(getTopics(nodes).map((topic) => topic.name))
+			keywords: _.orderBy(getKeywords(nodes, 1).map((keyword) => keyword.name)),
+			places: _.orderBy(getPlaces(nodes, 1).map((place) => place.name)),
+			topics: _.orderBy(getTopics(nodes, 1).map((topic) => topic.name))
 		}))
 		.value();
 }
