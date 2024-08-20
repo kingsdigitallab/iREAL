@@ -8,8 +8,8 @@
 
 <section>
 	<hgroup>
-		<h1>Distribution of the extracted keywords</h1>
+		<h1>Distribution of the extracted topics</h1>
 		<p>Explore a visualisation of the distribution of extracted keywords.</p>
 	</hgroup>
-	<FacetDistribution data={results.topics} label="topic" />
+	<FacetDistribution data={results.topics} schools={results.schools} label="topic" field="topics" />
 </section>
