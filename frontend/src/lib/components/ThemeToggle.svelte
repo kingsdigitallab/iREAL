@@ -5,7 +5,7 @@
 	let theme = (browser && localStorage.getItem('data-theme')) || 'light';
 
 	if (browser) {
-		const preference = window.matchMedia('(prefers-data-theme: dark)');
+		const preference = window.matchMedia('(prefers-color-scheme: dark)');
 
 		if (preference.matches) {
 			theme = 'dark';
