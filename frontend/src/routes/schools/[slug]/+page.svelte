@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Node } from '$lib/types';
-	import _ from 'lodash';
+	import _, { values } from 'lodash';
 	import type { PageData } from './$types';
 
 	export let data: PageData;
@@ -9,6 +9,7 @@
 	let entityFields = [
 		'diseases',
 		'events',
+		'excerpt_keywords',
 		'locations',
 		'media',
 		'organizations',
@@ -56,8 +57,9 @@
 					field,
 					value: _.uniq(
 						_(documents)
-							.flatMap(field)
+							.flatMap((doc) => (Array.isArray(doc[field]) ? doc[field] : doc[field]?.split(',')))
 							.filter((value) => value)
+							.map((value) => value.trim())
 							.value()
 					)
 				}))
@@ -68,7 +70,7 @@
 				(entity) =>
 					(node.innerHTML = node.innerHTML.replace(
 						new RegExp(`\\b${entity.value}\\b`, 'gi'),
-						`<mark class="${entity.field}" data-tooltip="${entity.field}: ${entity.value}">$&</mark>`
+						`<mark class="${entity.field}" data-tooltip="${entity.field.replace('_', ' ')}">$&</mark>`
 					))
 			);
 		}
