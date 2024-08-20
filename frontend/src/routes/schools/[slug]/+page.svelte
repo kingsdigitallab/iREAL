@@ -1,22 +1,24 @@
 <script lang="ts">
 	import type { Node } from '$lib/types';
+	import _ from 'lodash';
 	import type { PageData } from './$types';
 
 	export let data: PageData;
-
 	let { slug, school, nodes } = data;
-	let fields = [
-		'excerpt_keywords',
+
+	let entityFields = [
 		'diseases',
 		'events',
-		'excerpt_keywords',
 		'locations',
 		'media',
 		'organizations',
 		'persons',
+		'times'
+	];
+	let allFields = [
+		...entityFields,
 		'questions_this_excerpt_can_answer',
 		'section_summary',
-		'times',
 		'topics'
 	];
 
@@ -45,6 +47,38 @@
 
 		return value;
 	}
+
+	function highlightAction(node: HTMLElement) {
+		async function handleHighlightAction() {
+			const documents = await nodes;
+			const entities = entityFields
+				.map((field) => ({
+					field,
+					value: _.uniq(
+						_(documents)
+							.flatMap(field)
+							.filter((value) => value)
+							.value()
+					)
+				}))
+				.filter((entity) => entity.value.length > 0)
+				.flatMap((entity) => entity.value.map((value) => ({ field: entity.field, value })));
+
+			entities.forEach(
+				(entity) =>
+					(node.innerHTML = node.innerHTML.replace(
+						new RegExp(`\\b${entity.value}\\b`, 'gi'),
+						`<mark class="${entity.field}" data-tooltip="${entity.field}: ${entity.value}">$&</mark>`
+					))
+			);
+		}
+
+		handleHighlightAction();
+
+		return {
+			destroy() {}
+		};
+	}
 </script>
 
 <section>
@@ -68,7 +102,7 @@
 <section>
 	{#if isRecordView}
 		{#await school then content}
-			<article>
+			<article use:highlightAction>
 				<svelte:component this={content.default} />
 			</article>
 		{/await}
@@ -80,7 +114,7 @@
 					<dl>
 						<dt>Text</dt>
 						<dd>{getNodeText(doc)}</dd>
-						{#each fields as field}
+						{#each allFields as field}
 							<dt>{getNodeFieldName(field)}</dt>
 							<dd>{getNodeFieldValue(doc, field)}</dd>
 						{/each}
@@ -90,3 +124,31 @@
 		{/await}
 	{/if}
 </section>
+
+<style>
+	:global(mark.diseases) {
+		background: var(--mark-diseases);
+		color: #000;
+	}
+	:global(mark.events) {
+		background: var(--mark-events);
+	}
+	:global(mark.locations) {
+		background: var(--mark-locations);
+		color: #000;
+	}
+	:global(mark.media) {
+		background: var(--mark-media);
+	}
+	:global(mark.organizations) {
+		background: var(--mark-organizations);
+		color: var(--pico-primary-inverse);
+	}
+	:global(mark.persons) {
+		background: var(--mark-persons);
+		color: var(--pico-primary-inverse);
+	}
+	:global(mark.times) {
+		background: var(--mark-times);
+	}
+</style>

@@ -1,10 +1,38 @@
 @import '@fontsource/source-sans-pro';
 
 :root {
-    --pico-font-family: 'Source Sans Pro', var(--pico-font-family-sans-serif);
+	--pico-font-family: 'Source Sans Pro', var(--pico-font-family-sans-serif);
+
+	--mark-diseases: #e5625e;
+	--mark-events: #ffba08;
+	--mark-locations: #00916e;
+	--mark-media: #dadff7;
+	--mark-organizations: #bf3100;
+	--mark-persons: #26547c;
+	--mark-times: #797596;
 }
+
+/* @media (prefers-color-scheme: light) {
+	:root {
+		data-theme: light;
+	}
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		data-theme: dark;
+
+		--mark-locations: red;
+	}
+}
+
+[data-theme='dark'] {
+	data-theme: dark;
+
+	--mark-locations: red;
+} */
 
 html,
 body {
-    height: 100%;
+	height: 100%;
 }
