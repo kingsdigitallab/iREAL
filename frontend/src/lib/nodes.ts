@@ -56,7 +56,7 @@ export function getKeywords(nodes: Node[], minCount: number = 2): Facet[] {
 		.filter((keyword) => !schoolsNames.some((name) => keyword.name.startsWith(name)))
 		.filter((keyword) => !schoolsNames.some((name) => name.startsWith(keyword.name)))
 		.filter((keyword) => keyword.count >= minCount)
-		.orderBy('keyword')
+		.orderBy('name')
 		.value();
 
 	return keywords;
@@ -124,7 +124,7 @@ export function getTopics(nodes: Node[], minCount: number = 2): Facet[] {
 		.entries()
 		.map(([topic, count]) => ({ name: topic, count }))
 		.filter((topic) => topic.count >= minCount)
-		.orderBy('topic')
+		.orderBy('name')
 		.value();
 
 	return topics;
