@@ -2,14 +2,6 @@
 
 :root {
 	--pico-font-family: 'Source Sans Pro', var(--pico-font-family-sans-serif);
-
-	--mark-diseases: #e5625e;
-	--mark-events: #ffba08;
-	--mark-locations: #00916e;
-	--mark-media: #dadff7;
-	--mark-organizations: #bf3100;
-	--mark-persons: #26547c;
-	--mark-times: #797596;
 }
 
 html,
