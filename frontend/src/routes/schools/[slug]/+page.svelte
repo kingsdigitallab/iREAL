@@ -1,15 +1,16 @@
 <script lang="ts">
 	import type { Node } from '$lib/types';
-	import _, { values } from 'lodash';
+	import _ from 'lodash';
 	import type { PageData } from './$types';
 
 	export let data: PageData;
 	let { slug, school, nodes } = data;
 
+	let schoolEntities: string[] = [];
 	let entityFields = [
+		'excerpt_keywords',
 		'diseases',
 		'events',
-		'excerpt_keywords',
 		'locations',
 		'media',
 		'organizations',
@@ -23,6 +24,7 @@
 		'topics'
 	];
 
+	let highlightFields: string[] = [];
 	let isRecordView: boolean = true;
 
 	function handleViewSwitch() {
@@ -58,7 +60,7 @@
 					value: _.uniq(
 						_(documents)
 							.flatMap((doc) => (Array.isArray(doc[field]) ? doc[field] : doc[field]?.split(',')))
-							.filter((value) => value)
+							.filter((value: string) => value)
 							.map((value) => value.trim())
 							.value()
 					)
@@ -66,11 +68,13 @@
 				.filter((entity) => entity.value.length > 0)
 				.flatMap((entity) => entity.value.map((value) => ({ field: entity.field, value })));
 
+			schoolEntities = _.uniq(entities.map((entity) => entity.field));
+
 			entities.forEach(
 				(entity) =>
 					(node.innerHTML = node.innerHTML.replace(
 						new RegExp(`\\b${entity.value}\\b`, 'gi'),
-						`<mark class="${entity.field}" data-tooltip="${entity.field.replace('_', ' ')}">$&</mark>`
+						`<mark class="${entity.field}"><span data-tooltip="${entity.field.replace('_', ' ')}">$&</span></mark>`
 					))
 			);
 		}
@@ -101,14 +105,34 @@
 	</div>
 </section>
 
-<section>
-	{#if isRecordView}
-		{#await school then content}
-			<article use:highlightAction>
+{#if isRecordView}
+	{#await school then content}
+		<section>
+			<form>
+				<fieldset>
+					<legend>Toggle content to highlight:</legend>
+					{#each entityFields as field}
+						<input
+							type="checkbox"
+							name="highlight"
+							id="highlight"
+							value={field}
+							bind:group={highlightFields}
+							disabled={!schoolEntities.includes(field)}
+						/>
+						<label class={field} for={field} aria-disabled={!schoolEntities.includes(field)}
+							>{field[0].toLocaleUpperCase()}{field.slice(1).replace('_', ' ')}</label
+						>
+					{/each}
+				</fieldset>
+			</form>
+			<article class={highlightFields.join(' ').trim()} use:highlightAction>
 				<svelte:component this={content.default} />
 			</article>
-		{/await}
-	{:else}
+		</section>
+	{/await}
+{:else}
+	<section>
 		{#await nodes then documents}
 			<h2>{documents[0].document_title}</h2>
 			{#each documents as doc}
@@ -124,33 +148,58 @@
 				</article>
 			{/each}
 		{/await}
-	{/if}
-</section>
+	</section>
+{/if}
 
 <style>
-	:global(mark.diseases) {
-		background: var(--mark-diseases);
-		color: #000;
+	:global(article mark) {
+		background: none;
+		color: inherit;
 	}
-	:global(mark.events) {
-		background: var(--mark-events);
+
+	:global(.excerpt_keywords) {
+		--highlight-color: var(--pico-mark-background-color);
+		--text-color: var(--pico-mark-color);
 	}
-	:global(mark.locations) {
-		background: var(--mark-locations);
-		color: #000;
+
+	:global(.diseases),
+	:global(.events),
+	:global(.locations),
+	:global(.media),
+	:global(.organizations),
+	:global(.persons),
+	:global(.times) {
+		--highlight-color: var(--pico-primary-background);
+		--text-color: var(--pico-primary-inverse);
 	}
-	:global(mark.media) {
-		background: var(--mark-media);
+
+	label[class] {
+		background-color: var(--highlight-color);
+		color: var(--text-color);
+		padding-inline: 0.3rem;
 	}
-	:global(mark.organizations) {
-		background: var(--mark-organizations);
-		color: var(--pico-primary-inverse);
+
+	:global(article.diseases p:has(.diseases)),
+	:global(article.events p:has(.events)),
+	:global(article.excerpt_keywords p:has(.excerpt_keywords)),
+	:global(article.locations p:has(.locations)),
+	:global(article.media p:has(.media)),
+	:global(article.organizations p:has(.organizations)),
+	:global(article.persons p:has(.persons)),
+	:global(article.times p:has(.times)) {
+		border-left: 5px solid var(--highlight-color);
+		padding-left: 0.5rem;
 	}
-	:global(mark.persons) {
-		background: var(--mark-persons);
-		color: var(--pico-primary-inverse);
-	}
-	:global(mark.times) {
-		background: var(--mark-times);
+
+	:global(article.diseases mark.diseases),
+	:global(article.events mark.events),
+	:global(article.excerpt_keywords mark.excerpt_keywords),
+	:global(article.locations mark.locations),
+	:global(article.media mark.media),
+	:global(article.organizations mark.organizations),
+	:global(article.persons mark.persons),
+	:global(article.times mark.times) {
+		background-color: var(--highlight-color);
+		color: var(--text-color);
 	}
 </style>
