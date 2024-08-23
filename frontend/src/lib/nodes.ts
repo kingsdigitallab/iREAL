@@ -41,7 +41,7 @@ export async function getSchools(nodes: Node[]): Promise<School[]> {
 		.value();
 }
 
-export function getKeywords(nodes: Node[], minCount: number = 2): Facet[] {
+export function getKeywords(nodes: Node[], minCount: number = 1): Facet[] {
 	const schoolsNames = getSchoolsNames(nodes);
 
 	const keywords = _(nodes)
@@ -117,7 +117,7 @@ export function getPlaces(nodes: Node[], minCount: number = 1): Facet[] {
 	return places;
 }
 
-export function getTopics(nodes: Node[], minCount: number = 2): Facet[] {
+export function getTopics(nodes: Node[], minCount: number = 1): Facet[] {
 	const topics = _(nodes)
 		.flatMap('topics')
 		.countBy()
