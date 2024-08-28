@@ -28,7 +28,6 @@
 	);
 	Chart.defaults.font.family = 'Source Sans Pro';
 
-	export let data: Facet[];
 	export let schools: School[];
 	export let label: string;
 	export let field: string;
@@ -42,18 +41,33 @@
 	let maxCount = 2;
 	let sortByLabel = true;
 
-	$: if (data && chartData) {
-		filteredData = data
+	$: if (chartData) {
+		filteredSchools = schools?.filter(
+			(school) => !selected || school[field as keyof School].some((item) => item.name === selected)
+		);
+
+		filteredData = Object.values(
+			filteredSchools
+				.filter(
+					(school) =>
+						!selected || school[field as keyof School].some((item) => item.name === selected)
+				)
+				.flatMap((school) => school[field as keyof School])
+				.reduce((acc, item) => {
+					if (!acc[item.name]) {
+						acc[item.name] = { name: item.name, count: item.count };
+					}
+					acc[item.name].count += item.count;
+
+					return acc;
+				}, {})
+		)
 			?.filter((item) => item.count >= minCount)
-			.filter((item) => item.count <= maxCount)
-			.filter((item) => !selected || item.name === selected);
+			.filter((item) => item.count <= maxCount);
+
 		if (!sortByLabel) {
 			filteredData = filteredData.sort((a, b) => b.count - a.count);
 		}
-
-		filteredSchools = schools?.filter(
-			(school) => !selected || school[field as keyof School].some((value) => value === selected)
-		);
 
 		chartData.labels = filteredData.map((item) => item.name);
 		chartData.datasets[0].data = filteredData.map((item) => item.count);
@@ -61,6 +75,19 @@
 	$: labelAsTitle = `${label[0].toUpperCase()}${label.slice(1)}`;
 
 	onMount(() => {
+		const data = Object.values(
+			schools
+				.flatMap((school) => school[field as keyof School])
+				.reduce((acc, item) => {
+					if (!acc[item.name]) {
+						acc[item.name] = { name: item.name, count: item.count };
+					}
+					acc[item.name].count += item.count;
+
+					return acc;
+				}, {})
+		);
+
 		chartData = {
 			labels: data.map((item) => item.name),
 			datasets: [
@@ -86,7 +113,7 @@
 				>Choose a {label}
 				<select name="options" id="options" bind:value={selected}>
 					<option value=""></option>
-					{#each data as item}
+					{#each filteredData as item}
 						<option value={item.name}>{item.name}</option>
 					{/each}
 				</select>
@@ -95,11 +122,11 @@
 		<fieldset class="grid">
 			<label
 				>Minimum {label} count: <strong>{minCount}</strong>
-				<input type="number" name="minCount" id="minCount" bind:value={minCount} min="1" max="10" />
+				<input type="number" name="minCount" id="minCount" bind:value={minCount} min="2" max="10" />
 			</label>
 			<label
 				>Maximum {label} count: <strong>{maxCount}</strong>
-				<input type="number" name="maxCount" id="maxCount" bind:value={maxCount} min="1" max="10" />
+				<input type="number" name="maxCount" id="maxCount" bind:value={maxCount} min="2" max="10" />
 			</label>
 		</fieldset>
 		<fieldset class="grid">
@@ -134,9 +161,9 @@
 			{#each filteredSchools as school}
 				<h4><BaseLink href="schools/{school.slug}">{school.name}</BaseLink></h4>
 				<ul>
-					{#each school[field] as value}
+					{#each school[field] as item}
 						<li>
-							{#if value === selected}<mark>{value}</mark>{:else}{value}{/if}
+							{#if item.name === selected}<mark>{item.name}</mark>{:else}{item.name}{/if}
 						</li>
 					{/each}
 				</ul>
