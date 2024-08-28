@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { entityFields } from '$lib/config';
 	import type { Node } from '$lib/types';
 	import _ from 'lodash';
 	import type { PageData } from './$types';
@@ -7,18 +8,9 @@
 	let { slug, school, nodes } = data;
 
 	let schoolEntities: string[] = [];
-	let entityFields = [
-		'excerpt_keywords',
-		'diseases',
-		'events',
-		'locations',
-		'media',
-		'organizations',
-		'persons',
-		'times'
-	];
-	let allFields = [
-		...entityFields,
+	let schoolEntityFields = ['excerpt_keywords', ...entityFields];
+	let schoolFields = [
+		...schoolEntityFields,
 		'questions_this_excerpt_can_answer',
 		'section_summary',
 		'topics'
@@ -54,7 +46,7 @@
 	function highlightAction(node: HTMLElement) {
 		async function handleHighlightAction() {
 			const documents = await nodes;
-			const entities = entityFields
+			const entities = schoolEntityFields
 				.map((field) => ({
 					field,
 					value: _.uniq(
@@ -111,7 +103,7 @@
 			<form>
 				<fieldset>
 					<legend>Toggle content to highlight:</legend>
-					{#each entityFields as field}
+					{#each schoolEntityFields as field}
 						<input
 							type="checkbox"
 							name="highlight"
@@ -140,7 +132,7 @@
 					<dl>
 						<dt>Text</dt>
 						<dd>{getNodeText(doc)}</dd>
-						{#each allFields as field}
+						{#each schoolFields as field}
 							<dt>{getNodeFieldName(field)}</dt>
 							<dd>{getNodeFieldValue(doc, field)}</dd>
 						{/each}
