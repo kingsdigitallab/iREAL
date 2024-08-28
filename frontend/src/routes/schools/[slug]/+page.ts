@@ -1,17 +1,21 @@
-import { getOverview, getSchoolNodes, getSchools } from '$lib/nodes';
-import type { School } from '$lib/types';
+import { getSchoolNodes, getSchools } from '$lib/nodes';
 import { error } from '@sveltejs/kit';
 import type { EntryGenerator, PageLoad } from './$types';
 
-export const load = (async ({ params }) => {
+export const load = (async ({ params, parent }) => {
 	try {
-		const school = import(`$data/schools/${params.slug}.md`);
+		const parentData = await parent();
+		const schools = parentData.schools;
+
+		const md = import(`$data/schools/${params.slug}.md`);
 		const nodes = getSchoolNodes(params.slug);
+		const school = schools.find((s) => s.slug === params.slug);
 
 		return {
 			slug: params.slug,
-			school,
-			nodes
+			md,
+			nodes,
+			school
 		};
 	} catch (e) {
 		error(404, `Error loading school "${params.slug}": ${(e as Error).message}`);
