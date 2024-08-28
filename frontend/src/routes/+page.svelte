@@ -33,7 +33,7 @@
 		<div class="grid">
 			<SummaryCard title="People" value={overview.people.length} />
 			<SummaryCard title="Organisations" value={overview.organisations.length} />
-			<SummaryCard title="Places" value={overview.places.length} link="map" />
+			<SummaryCard title="Locations" value={overview.places.length} link="map" />
 		</div>
 	</section>
 {/await}
