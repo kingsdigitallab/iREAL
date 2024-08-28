@@ -5,7 +5,7 @@
 	import type { PageData } from './$types';
 
 	export let data: PageData;
-	let { slug, school, nodes } = data;
+	let { slug, md, nodes, school } = data;
 
 	let schoolEntities: string[] = [];
 	let schoolEntityFields = ['excerpt_keywords', ...entityFields];
@@ -82,9 +82,15 @@
 <section>
 	<hgroup>
 		<h1>{slug}</h1>
+		<ul class="topics">
+			<li>Topics:</li>
+			{#each school.topics as topic}
+				<li><em>{topic.name}</em></li>
+			{/each}
+		</ul>
 	</hgroup>
 	<div class="grid">
-		{#await school}
+		{#await md}
 			<button aria-busy="true" disabled>Loading school record...</button>
 		{:then}
 			<button on:click={handleViewSwitch} disabled={isRecordView}>School record</button>
@@ -98,7 +104,7 @@
 </section>
 
 {#if isRecordView}
-	{#await school then content}
+	{#await md then content}
 		<section>
 			<form>
 				<fieldset>
@@ -144,6 +150,16 @@
 {/if}
 
 <style>
+	.topics {
+		padding-left: 0;
+	}
+	.topics > li {
+		display: inline;
+	}
+	.topics > li + li + li::before {
+		content: ', ';
+	}
+
 	:global(article mark) {
 		background: none;
 		color: inherit;
