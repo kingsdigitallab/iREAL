@@ -1,10 +1,9 @@
 <script lang="ts">
 	import BaseLink from '$lib/components/BaseLink.svelte';
+	import { entityFields } from '$lib/config';
 	import type { PageData } from './$types';
 
 	export let data: PageData;
-
-	let { results } = data;
 </script>
 
 <section>
@@ -19,7 +18,7 @@
 	</p>
 </section>
 
-{#await results.schools}
+{#await data.schools}
 	<section aria-busy="true">Loading school records...</section>
 {:then schools}
 	<section>
@@ -28,26 +27,24 @@
 				<tr>
 					<th>School</th>
 					<th>Keywords</th>
-					<th>Places</th>
 					<th>Topics</th>
+					{#each entityFields as field}
+						<th>{field[0].toUpperCase()}{field.slice(1)}</th>
+					{/each}
 				</tr>
 			</thead>
 			<tbody>
 				{#each schools as school}
 					<tr>
 						<td><BaseLink href="schools/{school.slug}">{school.name}</BaseLink></td>
-						<td>{school.keywords.join(', ')}</td>
-						<td>{school.places.join(', ')}</td>
-						<td>{school.topics.join(', ')}</td>
+						<td>{school.keywords.length}</td>
+						<td>{school.topics.length}</td>
+						{#each entityFields as field}
+							<td>{school[field].length}</td>
+						{/each}
 					</tr>
 				{/each}
 			</tbody>
 		</table>
 	</section>
 {/await}
-
-<style>
-	tbody {
-		font-size: 0.8rem;
-	}
-</style>

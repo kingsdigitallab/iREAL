@@ -31,11 +31,10 @@ type GeoData = {
 
 export type Result = {
 	nodes: Node[];
-	schools: School[];
 	schoolsNames: string[];
 	keywords: Facet[];
-	organisations: { organisation: string; count: number }[];
-	people: { person: string; count: number }[];
+	organisations: Facet[];
+	people: Facet[];
 	places: Facet[];
 	topics: Facet[];
 };
