@@ -1,6 +1,6 @@
-import { getSchoolNodes, getSchools } from '$lib/nodes';
+import { getSchoolNodes } from '$lib/nodes';
 import { error } from '@sveltejs/kit';
-import type { EntryGenerator, PageLoad } from './$types';
+import type { PageLoad } from './$types';
 
 export const load = (async ({ params, parent }) => {
 	try {
