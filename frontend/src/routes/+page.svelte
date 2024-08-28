@@ -18,22 +18,22 @@
 	</hgroup>
 </section>
 
-{#await data.results}
+{#await data.overview}
 	<section aria-busy="true">Loading data...</section>
-{:then results}
+{:then overview}
 	<section>
 		<hgroup>
 			<h2>Data overview</h2>
 		</hgroup>
 		<div class="grid">
-			<SummaryCard title="School records" value={results.schoolsNames.length} link="schools" />
-			<SummaryCard title="Keywords" value={results.keywords.length} link="keywords" />
-			<SummaryCard title="Topics" value={results.topics.length} link="topics" />
+			<SummaryCard title="School records" value={overview.schoolsNames.length} link="schools" />
+			<SummaryCard title="Keywords" value={overview.keywords.length} link="keywords" />
+			<SummaryCard title="Topics" value={overview.topics.length} link="topics" />
 		</div>
 		<div class="grid">
-			<SummaryCard title="People" value={results.people.length} />
-			<SummaryCard title="Organisations" value={results.organisations.length} />
-			<SummaryCard title="Places" value={results.places.length} link="map" />
+			<SummaryCard title="People" value={overview.people.length} />
+			<SummaryCard title="Organisations" value={overview.organisations.length} />
+			<SummaryCard title="Places" value={overview.places.length} link="map" />
 		</div>
 	</section>
 {/await}
