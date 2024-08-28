@@ -1,4 +1,4 @@
-import { getResults, getSchoolNodes } from '$lib/nodes';
+import { getOverview, getSchoolNodes, getSchools } from '$lib/nodes';
 import type { School } from '$lib/types';
 import { error } from '@sveltejs/kit';
 import type { EntryGenerator, PageLoad } from './$types';
@@ -19,8 +19,7 @@ export const load = (async ({ params }) => {
 }) satisfies PageLoad;
 
 export const entries = (async () => {
-	const results = await getResults();
-	const schools = await results.schools;
+	const schools = await getSchools();
 
-	return schools.map((school: School) => ({ slug: school.slug }));
+	return schools.map((school) => ({ slug: school.slug }));
 }) satisfies EntryGenerator;
