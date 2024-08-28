@@ -124,7 +124,7 @@
 					{/each}
 				</fieldset>
 			</form>
-			<article class={highlightFields.join(' ').trim()} use:highlightAction>
+			<article class="md {highlightFields.join(' ').trim()}" use:highlightAction>
 				<svelte:component this={content.default} />
 			</article>
 		</section>
@@ -160,7 +160,7 @@
 		content: ', ';
 	}
 
-	:global(article mark) {
+	:global(article.md mark) {
 		background: none;
 		color: inherit;
 	}
