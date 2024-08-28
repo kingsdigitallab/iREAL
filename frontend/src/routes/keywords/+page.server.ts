@@ -1,10 +1,10 @@
+import { getSchools } from '$lib/nodes';
 import type { PageServerLoad } from './$types';
 
-export const load = (async ({ parent }) => {
-	const parentData = await parent();
-	const results = await parentData.results;
+export const load = (async () => {
+	const schools = getSchools();
 
 	return {
-		results
+		schools
 	};
 }) satisfies PageServerLoad;

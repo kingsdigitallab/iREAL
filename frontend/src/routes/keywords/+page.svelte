@@ -3,8 +3,6 @@
 	import type { PageData } from './$types';
 
 	export let data: PageData;
-
-	let { results } = data;
 </script>
 
 <section>
@@ -12,10 +10,9 @@
 		<h1>Distribution of the extracted keywords</h1>
 		<p>Explore a visualisation of the distribution of extracted keywords.</p>
 	</hgroup>
-	<FacetDistribution
-		data={results.keywords}
-		schools={results.schools}
-		label="keyword"
-		field="keywords"
-	/>
+	{#await data.schools}
+		<section aria-busy="true">Loading data...</section>
+	{:then schools}
+		<FacetDistribution {schools} label="keyword" field="keywords" />
+	{/await}
 </section>
