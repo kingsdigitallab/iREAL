@@ -7,8 +7,8 @@
 
 <section>
 	<hgroup>
-		<h1>Distribution of the extracted keywords</h1>
-		<p>Explore a visualisation of the distribution of extracted keywords.</p>
+		<h1>Distribution of the extracted organisations</h1>
+		<p>Explore a visualisation of the distribution of extracted organisations.</p>
 	</hgroup>
 	{#await data.schools}
 		<section aria-busy="true">Loading data...</section>
