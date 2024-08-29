@@ -63,7 +63,8 @@
 				}, {})
 		)
 			?.filter((item) => item.count >= minCount)
-			.filter((item) => item.count <= maxCount);
+			.filter((item) => item.count <= maxCount)
+			.sort((a, b) => a.name.localeCompare(b.name));
 
 		if (!sortByLabel) {
 			filteredData = filteredData.sort((a, b) => b.count - a.count);
