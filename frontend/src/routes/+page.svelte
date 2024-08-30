@@ -32,7 +32,11 @@
 		</div>
 		<div class="grid">
 			<SummaryCard title="People" value={overview.people.length} />
-			<SummaryCard title="Organisations" value={overview.organisations.length} />
+			<SummaryCard
+				title="Organisations"
+				value={overview.organisations.length}
+				link="organisations"
+			/>
 			<SummaryCard title="Locations" value={overview.places.length} link="map" />
 		</div>
 	</section>
