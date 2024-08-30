@@ -19,7 +19,7 @@
       "infile": "CHANGELOG.md"
     },
     "@release-it/bumper": {
-      "out": ["frontend/package.json"]
+      "out": ["package.json"]
     }
   }
 }
