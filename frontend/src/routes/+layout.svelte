@@ -9,6 +9,8 @@
 	import '@picocss/pico/css/pico.colors.css';
 
 	import '../app.css';
+
+	const version = import.meta.env.APP_VERSION;
 </script>
 
 <svelte:head>
@@ -21,6 +23,11 @@
 			<ul>
 				<li>
 					<BaseLink href="/"><strong>{config.title}</strong></BaseLink>
+					<code class="version">
+						<a href="https://github.com/kingsdigitallab/iReal/blob/v{version}/CHANGELOG.md"
+							>v{version}</a
+						>
+					</code>
 					{#if dev}<mark>dev</mark>{/if}
 				</li>
 			</ul>
@@ -39,7 +46,9 @@
 		</nav>
 	</header>
 	<main class="container"><slot /></main>
-	<footer class="container"><BaseLink href="/"><small>{config.title}</small></BaseLink></footer>
+	<footer class="container">
+		<BaseLink href="/">{config.title}</BaseLink>
+	</footer>
 </div>
 
 <style>
