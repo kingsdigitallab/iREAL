@@ -37,7 +37,11 @@ from llama_index.storage.kvstore.redis import RedisKVStore as RedisCache
 from llama_index.vector_stores.qdrant import QdrantVectorStore
 from qdrant_client import AsyncQdrantClient, QdrantClient
 
-from app.engine.transformers import GeocodeLocationsTransformer, TopicExtractor
+from app.engine.transformers import (
+    GeocodeLocationsTransformer,
+    TopicExtractor,
+    YearsTransformer,
+)
 
 load_dotenv()
 nest_asyncio.apply()
@@ -103,6 +107,7 @@ def run_ingestion_pipeline():
             get_questions_answered_extractor(),
             get_summary_extractor(),
             get_title_extractor(),
+            get_year_transformer(),
             TopicExtractor(),
             Settings.embed_model,
         ],
@@ -157,7 +162,9 @@ def get_keyword_extractor():
         keywords=int(os.getenv("KEYWORD_EXTRACTOR_KEYWORDS", "5")),
         prompt_template="""\
 {context_str}. Give {keywords} unique keywords for this \
-document, do not use entity names as keywords. Format as comma separated. Keywords: """,
+document, do not use entity names as keywords, \
+do not number the keywords, do not surround the keywords in quotes. \
+Format as comma separated. Keywords: """,
     )
 
 
@@ -177,6 +184,10 @@ def get_summary_extractor():
 
 def get_title_extractor():
     return TitleExtractor(nodes=int(os.getenv("TITLE_EXTRACTOR_NODES", "2")))
+
+
+def get_year_transformer():
+    return YearsTransformer()
 
 
 def get_ingestion_cache():
