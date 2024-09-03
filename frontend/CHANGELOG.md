@@ -1,5 +1,23 @@
 
 
+# [0.2.0](https://github.com/jmiguelv/iREAL/compare/v0.1.0...v0.2.0) (2024-09-03)
+
+
+### Features
+
+* **backend:** add step in the indexing pipeline to extract years ([4198971](https://github.com/jmiguelv/iREAL/commit/41989716884b97c0e6829358c0d70d7f17e6b749))
+* **frontend:** add pre-defined list of topics ([e148c0c](https://github.com/jmiguelv/iREAL/commit/e148c0ce2e0a428f8c47461854dbff853a2a1cda))
+* **frontend:** add years to the list of entity fields ([edfeea0](https://github.com/jmiguelv/iREAL/commit/edfeea0fb52cee1f87cddde8e898b07771bc4817))
+* **frontend:** cleanup the extracted data ([939a8c4](https://github.com/jmiguelv/iREAL/commit/939a8c487043c504c80de580241c423b595a7926))
+* **frontend:** display and highlight years ([ece9128](https://github.com/jmiguelv/iREAL/commit/ece91281813dd8b8a7f5e4c5364c7e2d93592267))
+* **frontend:** display year span using the extracted years ([30a4ce8](https://github.com/jmiguelv/iREAL/commit/30a4ce842de04fd1a97b9e15fade2c14f64bba41))
+* **transformers:** add transformer to extract years from nodes ([760c120](https://github.com/jmiguelv/iREAL/commit/760c120269cc468b1bd24b1c1ef3b826531deb83))
+
+
+### Performance Improvements
+
+* **frontend:** use the pre-extracted entities for the school ([25eb426](https://github.com/jmiguelv/iREAL/commit/25eb42697cf78452a97a89db3a5fdb08391d82de))
+
 # 0.1.0 (2024-08-30)
 
 
