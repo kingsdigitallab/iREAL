@@ -1,4 +1,5 @@
 from functools import lru_cache
+import re
 import numpy as np
 import pandas as pd
 
@@ -18,7 +19,7 @@ DEFAULT_TOPIC_EXTRACT_TEMPLATE = """
 You are a text classification expert. Your task is to assign short,
 generic topic labels to the following text about Indigenous schools in
 NSW, Australia in the late 19th and early 20th century. Use only the
-following topics: education policies, assimilation, cultural 
+following topics and nothing else: education policies, assimilation, cultural 
 suppression, mission schools, government schools, Aboriginal reserves,
 segregation, curriculum, language preservation, traditional knowledge,
 teacher training, attendance rates, funding issues, racism, health
@@ -149,3 +150,14 @@ class GeocodeLocationsTransformer(TransformComponent):
                 return [row["Lat"], row["Lon"]]
 
         return None
+
+
+class YearsTransformer(TransformComponent):
+    def __call__(self, nodes, **kwargs) -> List[BaseNode]:
+        for node in nodes:
+            node.metadata["years"] = self._extract_years(node.text)
+
+        return nodes
+
+    def _extract_years(self, text: str) -> List[int]:
+        return list(map(int, re.findall(r"\b18\d{2}\b|\b19\d{2}\b", text)))
