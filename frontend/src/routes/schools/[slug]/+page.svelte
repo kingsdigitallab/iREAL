@@ -53,7 +53,6 @@
 				.filter((entity) => entity.value)
 				.flatMap((entity) => entity.value.map((value) => ({ field: entity.field, value })));
 
-			console.log('Entities:', entities);
 			schoolEntities = _.uniq(entities.map((entity) => entity.field));
 
 			entities.forEach(
