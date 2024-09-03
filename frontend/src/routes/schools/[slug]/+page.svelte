@@ -45,19 +45,11 @@
 
 	function highlightAction(node: HTMLElement) {
 		async function handleHighlightAction() {
-			const documents = await nodes;
 			const entities = schoolEntityFields
 				.map((field) => ({
 					field,
-					value: _.uniq(
-						_(documents)
-							.flatMap((doc) => (Array.isArray(doc[field]) ? doc[field] : doc[field]?.split(',')))
-							.filter((value: string) => value)
-							.map((value) => value.trim())
-							.value()
-					)
+					value: school[field].map((entity) => entity.name)
 				}))
-				.filter((entity) => entity.value.length > 0)
 				.flatMap((entity) => entity.value.map((value) => ({ field: entity.field, value })));
 
 			schoolEntities = _.uniq(entities.map((entity) => entity.field));
