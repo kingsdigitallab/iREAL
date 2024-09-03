@@ -37,7 +37,7 @@
 				{#each schools as school}
 					<tr>
 						<td><BaseLink href="schools/{school.slug}">{school.name}</BaseLink></td>
-						<td>{school.keywords.length}</td>
+						<td>{school.excerpt_keywords.length}</td>
 						<td>{school.topics.length}</td>
 						{#each entityFields as field}
 							<td>{school[field].length}</td>

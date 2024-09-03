@@ -1,6 +1,6 @@
 import data from '$data/processed_data_20240903091603.json';
 import _ from 'lodash';
-import type { Facet, Node, Result } from './types';
+import type { Facet, Node, Result, School } from './types';
 import * as config from './config';
 
 export async function getOverview(): Promise<Result> {
@@ -11,11 +11,11 @@ export async function getOverview(): Promise<Result> {
 	return {
 		nodes,
 		schoolsNames: getSchoolsNames(nodes),
-		keywords: getKeywords(nodes, 2),
+		excerpt_keywords: getKeywords(nodes, 2),
 		topics: getTopics(nodes, 1),
-		organisations: getOrganisations(nodes, 1),
-		people: getPeople(nodes, 1),
-		places: getPlaces(nodes, 2),
+		organizations: getOrganisations(nodes, 1),
+		persons: getPeople(nodes, 1),
+		locations: getPlaces(nodes, 2),
 		years: getYears(nodes)
 	};
 }
@@ -123,7 +123,7 @@ export function getPlaces(nodes: Node[], minCount: number = 1): Facet[] {
 	return places;
 }
 
-export async function getSchools() {
+export async function getSchools(): Promise<School[]> {
 	let nodes = await getAllNodes();
 	nodes = nodes.sort((a, b) => a.school.localeCompare(b.school));
 
@@ -140,7 +140,7 @@ export async function getSchools() {
 		.map(([school, nodes]) => ({
 			name: school,
 			slug: nodes[0].file.replace('.json', ''),
-			keywords: _.orderBy(
+			excerpt_keywords: _.orderBy(
 				getKeywords(nodes, 1).filter((keyword) => allKeywords.some((k) => k.name === keyword.name))
 			),
 			topics: _.orderBy(
