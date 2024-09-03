@@ -1,5 +1,17 @@
 
 
+## [0.2.2](https://github.com/jmiguelv/iREAL/compare/v0.2.1...v0.2.2) (2024-09-03)
+
+
+### Bug Fixes
+
+* **frontend:** remove log statement ([4810551](https://github.com/jmiguelv/iREAL/commit/481055188f134bc7f66d3e15a979d9fd784987ab))
+
+
+### Features
+
+* **frontend:** add favicon ([8224c47](https://github.com/jmiguelv/iREAL/commit/8224c479361d3f77cee5dc44917f25438779bbde))
+
 ## [0.2.1](https://github.com/jmiguelv/iREAL/compare/v0.2.0...v0.2.1) (2024-09-03)
 
 
