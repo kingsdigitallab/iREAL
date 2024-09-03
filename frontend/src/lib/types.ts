@@ -32,19 +32,24 @@ type GeoData = {
 export type Result = {
 	nodes: Node[];
 	schoolsNames: string[];
-	keywords: Facet[];
-	organisations: Facet[];
-	people: Facet[];
-	places: Facet[];
+	excerpt_keywords: Facet[];
+	organizations: Facet[];
+	persons: Facet[];
+	locations: Facet[];
 	topics: Facet[];
+	years: number[];
 };
 
 export type School = {
 	name: string;
 	slug: string;
-	keywords: string[];
-	places: string[];
-	topics: string[];
+	excerpt_keywords: Facet[];
+	topics: Facet[];
+	diseases: Facet[];
+	locations: Facet[];
+	organizations: Facet[];
+	persons: Facet[];
+	years: number[];
 };
 
 export type Facet = {
