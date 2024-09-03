@@ -1,44 +1,58 @@
-# About
+# About the iREAL Dashboard
 
-This dashboard presents data from 49 Aboriginal schools in New South Wales,
-Australia, spanning the 19th to early 20th century. The information has been
-extracted from historical records using AI and machine learning techniques.
+Welcome to the iREAL (Inclusive Requirements Elicitation for AI in Libraries) Dashboard. This interactive tool presents data from 49 Aboriginal schools in New South Wales, Australia, spanning the 19th to early 20th century. The information has been extracted from historical records using AI and machine learning techniques, aiming to support respectful management of Indigenous Knowledges.
+
+## Project Overview
+
+The iREAL project is an initiative to develop an inclusive requirements elicitation system for AI in libraries, with a focus on Indigenous Australian communities. This dashboard is a key component of the project, allowing users to explore and interact with the extracted data from historical records about NSW schools that served Indigenous communities.
 
 ## Architecture
 
-1. Data collection...
-1. Data pre-processing: the word documents were converted into suitable formats
-for data processing (JSON and markdown for rendering in the dashboard).
-1. Data extraction: AI/ML models were used to extract keywords, entities and
-topics from the data.
-1. Dashboard...
+Our system architecture consists of four main components:
+
+1. **Data collection**: Historical records about NSW Aboriginal schools are available at...
+
+2. **Data pre-processing**: The original documents were converted into suitable formats for data processing (JSON and Markdown) to facilitate both backend analysis and frontend rendering.
+
+3. **Data extraction**: We employed AI/ML models to extract various types of metadata from the processed documents. This includes entities, keywords, topics, and geographical information.
+
+4. **Dashboard**: This frontend interface, built with SvelteKit, allows users to explore and visualize the extracted data.
 
 ## Data extraction
 
-Several types of metadata are being [extracted](https://docs.llamaindex.ai/en/stable/module_guides/indexing/metadata_extraction/). Below are more details about each extraction.
+We use several AI-powered techniques to extract meaningful information from the historical records:
 
 ### Entity extraction
 
-Entities are extracted using the [default configuration](https://docs.llamaindex.ai/en/stable/examples/metadata_extraction/EntityExtractionClimate). The default model extracts
-multiple entity types; of relevance for the project are: persons, organisations,
-locations, diseases, years.
+We use a default entity extraction model to identify multiple entity types within the text, including persons, organizations, locations, diseases, and years.
 
 ### Geocoding of location entities
 
-After the entities are extracted, a [transformer](app/engine/transformers.py#L101)
-is used to parse the `location` entities and match them against a
-[CSV](https://emckclac.sharepoint.com/:x:/r/sites/AHkdl/Shared%20Documents/iREAL%20(AI%20and%20Indigenous%20Heritage)/EXTERNAL/Materials%20from%20partners/Datasets/nsw-missions.csv?d=wa0652550c5fc44fe98e02b339b7c1fac&csf=1&web=1&e=ieXe8h)
-file that contains coordinates for places in NSW. If there is a match between the
-extracted locations and the data in the CSV, a new metadata element is created,
-`geo` that contains the location name and the coordinates.
+After extracting location entities, we use a custom transformer to match these locations against a CSV file containing coordinates for places in NSW. This allows us to add geographical context to the extracted data.
 
 ### Keyword extraction
 
-Extracts the top 5 keywords for each chunk of text, using the LLM and a
-[custom prompt](cli.py#L155) to exclude entity names from the keywords.
+For each chunk of text, we extract the top 5 keywords using a Language Model (LLM) with a custom prompt. This process is designed to exclude entity names from the keywords, focusing on thematic elements.
 
 ### Topic extraction
 
-Topic extraction is based on the entity extraction process, but it uses the LLM
-with a [custom prompt](app/engine/transformers.py#L17) to extract topics from
-the text chunks.
+Building upon the entity extraction process, we use the LLM with a custom prompt to identify overarching topics within the text chunks.
+
+## How to use the dashboard
+
+The dashboard provides various ways to explore the extracted data:
+
+- **School Profiles**: View detailed information about each of the 49 Aboriginal schools, including historical context and extracted metadata.
+- **Topic and Keyword Exploration**: Discover common themes and important terms across the historical records.
+- **Organisations Exploration**: Discover...
+- **Interactive Map**: Explore the geographical distribution of schools using the geocoded location data.
+
+## Ethical considerations
+
+The iREAL project is committed to the respectful and ethical management of Indigenous Knowledges. While AI and machine learning techniques have been used to process this historical data, we acknowledge the importance of human interpretation and Indigenous perspectives in understanding this information.
+
+## Feedback and further information
+
+We welcome feedback on this dashboard and the wider iREAL project. For more information about the technical implementation, please refer to our [GitHub repository](https://github.com/kingsdigitallab/ireal).
+
+This project is a collaboration between [relevant institutions], funded by [funding bodies], and developed with deep respect for the Indigenous communities of New South Wales.
