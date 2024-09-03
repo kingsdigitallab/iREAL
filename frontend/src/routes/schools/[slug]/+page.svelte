@@ -48,10 +48,12 @@
 			const entities = schoolEntityFields
 				.map((field) => ({
 					field,
-					value: school[field].map((entity) => entity.name)
+					value: school[field].map((entity) => entity?.name || entity)
 				}))
+				.filter((entity) => entity.value)
 				.flatMap((entity) => entity.value.map((value) => ({ field: entity.field, value })));
 
+			console.log('Entities:', entities);
 			schoolEntities = _.uniq(entities.map((entity) => entity.field));
 
 			entities.forEach(
@@ -80,6 +82,7 @@
 				<li><em>{topic.name}</em></li>
 			{/each}
 		</ul>
+		{school.years}
 	</hgroup>
 	<div class="grid">
 		{#await md}
@@ -162,6 +165,11 @@
 		--text-color: var(--pico-mark-color);
 	}
 
+	:global(.years) {
+		--highlight-color: var(--pico-secondary-background);
+		--text-color: var(--pico-primary-inverse);
+	}
+
 	:global(.diseases),
 	:global(.events),
 	:global(.locations),
@@ -186,7 +194,8 @@
 	:global(article.media p:has(.media)),
 	:global(article.organizations p:has(.organizations)),
 	:global(article.persons p:has(.persons)),
-	:global(article.times p:has(.times)) {
+	:global(article.times p:has(.times)),
+	:global(article.years p:has(.years)) {
 		border-left: 5px solid var(--highlight-color);
 		padding-left: 0.5rem;
 	}
@@ -198,7 +207,8 @@
 	:global(article.media mark.media),
 	:global(article.organizations mark.organizations),
 	:global(article.persons mark.persons),
-	:global(article.times mark.times) {
+	:global(article.times mark.times),
+	:global(article.years mark.years) {
 		background-color: var(--highlight-color);
 		color: var(--text-color);
 	}
