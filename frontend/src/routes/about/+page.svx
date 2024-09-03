@@ -1,0 +1,44 @@
+# About
+
+This dashboard presents data from 49 Aboriginal schools in New South Wales,
+Australia, spanning the 19th to early 20th century. The information has been
+extracted from historical records using AI and machine learning techniques.
+
+## Architecture
+
+1. Data collection...
+1. Data pre-processing: the word documents were converted into suitable formats
+for data processing (JSON and markdown for rendering in the dashboard).
+1. Data extraction: AI/ML models were used to extract keywords, entities and
+topics from the data.
+1. Dashboard...
+
+## Data extraction
+
+Several types of metadata are being [extracted](https://docs.llamaindex.ai/en/stable/module_guides/indexing/metadata_extraction/). Below are more details about each extraction.
+
+### Entity extraction
+
+Entities are extracted using the [default configuration](https://docs.llamaindex.ai/en/stable/examples/metadata_extraction/EntityExtractionClimate). The default model extracts
+multiple entity types; of relevance for the project are: persons, organisations,
+locations, diseases, years.
+
+### Geocoding of location entities
+
+After the entities are extracted, a [transformer](app/engine/transformers.py#L101)
+is used to parse the `location` entities and match them against a
+[CSV](https://emckclac.sharepoint.com/:x:/r/sites/AHkdl/Shared%20Documents/iREAL%20(AI%20and%20Indigenous%20Heritage)/EXTERNAL/Materials%20from%20partners/Datasets/nsw-missions.csv?d=wa0652550c5fc44fe98e02b339b7c1fac&csf=1&web=1&e=ieXe8h)
+file that contains coordinates for places in NSW. If there is a match between the
+extracted locations and the data in the CSV, a new metadata element is created,
+`geo` that contains the location name and the coordinates.
+
+### Keyword extraction
+
+Extracts the top 5 keywords for each chunk of text, using the LLM and a
+[custom prompt](cli.py#L155) to exclude entity names from the keywords.
+
+### Topic extraction
+
+Topic extraction is based on the entity extraction process, but it uses the LLM
+with a [custom prompt](app/engine/transformers.py#L17) to extract topics from
+the text chunks.
