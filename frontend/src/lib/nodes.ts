@@ -1,6 +1,7 @@
-import data from '$data/processed_data_20240804124721.json';
+import data from '$data/processed_data_20240903091603.json';
 import _ from 'lodash';
-import type { Facet, Node, Result } from './types';
+import type { Facet, Node, Result, School } from './types';
+import * as config from './config';
 
 export async function getOverview(): Promise<Result> {
 	let nodes = await getAllNodes();
@@ -10,11 +11,12 @@ export async function getOverview(): Promise<Result> {
 	return {
 		nodes,
 		schoolsNames: getSchoolsNames(nodes),
-		keywords: getKeywords(nodes, 2),
-		topics: getTopics(nodes, 2),
-		organisations: getOrganisations(nodes, 1),
-		people: getPeople(nodes, 1),
-		places: getPlaces(nodes, 2)
+		excerpt_keywords: getKeywords(nodes, 2),
+		topics: getTopics(nodes, 1),
+		organizations: getOrganisations(nodes, 1),
+		persons: getPeople(nodes, 1),
+		locations: getPlaces(nodes, 2),
+		years: getYears(nodes)
 	};
 }
 
@@ -26,17 +28,26 @@ function getSchoolsNames(nodes: Node[]): string[] {
 	return _.uniqBy(nodes, 'school').map((node) => node.school);
 }
 
+function getYears(nodes: Node[]): number[] {
+	const years = _(nodes).flatMap('years').filter().uniq().sort().value();
+
+	return years;
+}
+
 export function getKeywords(nodes: Node[], minCount: number = 1): Facet[] {
 	const schoolsNames = getSchoolsNames(nodes);
 
 	const keywords = _(nodes)
 		.map('excerpt_keywords')
-		.map((keywords) => keywords.replace(/^\d+\.s*/, ''))
+		.map((keywords) => keywords.replaceAll(/\d+\.\s+/g, ''))
+		.map((keywords) => keywords.replaceAll('\n', ','))
 		.split(',')
 		.map((keyword) => keyword.trim())
-		.countBy()
-		.entries()
-		.map(([keyword, count]) => ({ name: keyword, count }))
+		.filter((keyword) => !keyword.startsWith('(') && !keyword.endsWith(')'))
+		.orderBy()
+		.groupBy((keyword) => keyword.toLowerCase())
+		.values()
+		.map((values) => ({ name: values[0], count: values.length }))
 		.filter((keyword) => !keyword.name.toLowerCase().includes('aboriginal school'))
 		.filter(
 			(keyword) =>
@@ -47,7 +58,6 @@ export function getKeywords(nodes: Node[], minCount: number = 1): Facet[] {
 				!schoolsNames.some((name) => name.toLowerCase().includes(keyword.name.toLowerCase()))
 		)
 		.filter((keyword) => keyword.count >= minCount)
-		.orderBy('name')
 		.value();
 
 	return keywords;
@@ -56,6 +66,7 @@ export function getKeywords(nodes: Node[], minCount: number = 1): Facet[] {
 export function getTopics(nodes: Node[], minCount: number = 1): Facet[] {
 	const topics = _(nodes)
 		.flatMap('topics')
+		.filter((topic) => config.topics.includes(topic))
 		.countBy()
 		.entries()
 		.map(([topic, count]) => ({ name: topic, count }))
@@ -112,7 +123,7 @@ export function getPlaces(nodes: Node[], minCount: number = 1): Facet[] {
 	return places;
 }
 
-export async function getSchools() {
+export async function getSchools(): Promise<School[]> {
 	let nodes = await getAllNodes();
 	nodes = nodes.sort((a, b) => a.school.localeCompare(b.school));
 
@@ -129,7 +140,7 @@ export async function getSchools() {
 		.map(([school, nodes]) => ({
 			name: school,
 			slug: nodes[0].file.replace('.json', ''),
-			keywords: _.orderBy(
+			excerpt_keywords: _.orderBy(
 				getKeywords(nodes, 1).filter((keyword) => allKeywords.some((k) => k.name === keyword.name))
 			),
 			topics: _.orderBy(
@@ -149,7 +160,8 @@ export async function getSchools() {
 
 			locations: _.orderBy(
 				getPlaces(nodes, 1).filter((place) => allPlaces.some((p) => p.name === place.name))
-			)
+			),
+			years: getYears(nodes)
 		}))
 		.value();
 }

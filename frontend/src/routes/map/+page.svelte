@@ -12,5 +12,5 @@
 		<h1>Map of the extracted locations</h1>
 		<p>Explore a visualisation of the geographical distribution of extracted locations.</p>
 	</hgroup>
-	<FacetMap places={results.places} />
+	<FacetMap places={results.locations} />
 </section>

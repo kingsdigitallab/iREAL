@@ -12,8 +12,8 @@
 		<h1>{config.description}</h1>
 		<p>
 			This dashboard presents data from 49 Aboriginal schools in New South Wales, Australia,
-			spanning the late 19th to early 20th century. The information has been extracted from
-			historical records using AI and machine learning techniques.
+			spanning the 19th to early 20th century. The information has been extracted from historical
+			records using AI and machine learning techniques.
 		</p>
 	</hgroup>
 </section>
@@ -24,20 +24,21 @@
 	<section>
 		<hgroup>
 			<h2>Data overview</h2>
+			<p>{overview.years[0]}—{overview.years.slice(-1)}</p>
 		</hgroup>
 		<div class="grid">
 			<SummaryCard title="School records" value={overview.schoolsNames.length} link="schools" />
-			<SummaryCard title="Keywords" value={overview.keywords.length} link="keywords" />
+			<SummaryCard title="Keywords" value={overview.excerpt_keywords.length} link="keywords" />
 			<SummaryCard title="Topics" value={overview.topics.length} link="topics" />
 		</div>
 		<div class="grid">
-			<SummaryCard title="People" value={overview.people.length} />
+			<SummaryCard title="People" value={overview.persons.length} />
 			<SummaryCard
 				title="Organisations"
-				value={overview.organisations.length}
+				value={overview.organizations.length}
 				link="organisations"
 			/>
-			<SummaryCard title="Locations" value={overview.places.length} link="map" />
+			<SummaryCard title="Locations" value={overview.locations.length} link="map" />
 		</div>
 	</section>
 {/await}

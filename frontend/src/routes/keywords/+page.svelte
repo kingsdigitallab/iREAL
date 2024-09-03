@@ -13,6 +13,6 @@
 	{#await data.schools}
 		<section aria-busy="true">Loading data...</section>
 	{:then schools}
-		<FacetDistribution {schools} label="keyword" field="keywords" />
+		<FacetDistribution {schools} label="keyword" field="excerpt_keywords" />
 	{/await}
 </section>
