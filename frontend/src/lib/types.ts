@@ -37,6 +37,7 @@ export type Result = {
 	people: Facet[];
 	places: Facet[];
 	topics: Facet[];
+	years: number[];
 };
 
 export type School = {
