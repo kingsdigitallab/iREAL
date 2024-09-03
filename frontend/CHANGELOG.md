@@ -1,5 +1,12 @@
 
 
+## [0.2.1](https://github.com/jmiguelv/iREAL/compare/v0.2.0...v0.2.1) (2024-09-03)
+
+
+### Bug Fixes
+
+* **frontend:** remove debug information ([f8e7879](https://github.com/jmiguelv/iREAL/commit/f8e7879f9ea75837804c479cd9d52df113982ee5))
+
 # [0.2.0](https://github.com/jmiguelv/iREAL/compare/v0.1.0...v0.2.0) (2024-09-03)
 
 
