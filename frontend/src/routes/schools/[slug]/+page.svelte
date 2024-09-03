@@ -82,7 +82,6 @@
 				<li><em>{topic.name}</em></li>
 			{/each}
 		</ul>
-		{school.years}
 	</hgroup>
 	<div class="grid">
 		{#await md}
