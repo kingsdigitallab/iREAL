@@ -1,6 +1,6 @@
 # iREAL - Backend
 
-This backeng is a RAG system to answer questions about a set of historical records about NSW schools that served Indigenous Australian communities.
+This backend is a RAG system to answer questions about a set of historical records about NSW schools that served Indigenous Australian communities.
 
 The RAG is built using [LLamaIndex](https://www.llamaindex.ai),
 [Ollama](https://ollama.com) to run a local LLM, and the
