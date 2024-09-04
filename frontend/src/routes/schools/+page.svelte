@@ -26,7 +26,6 @@
 			<thead>
 				<tr>
 					<th>School</th>
-					<th>Years</th>
 					<th>Keywords</th>
 					<th>Topics</th>
 					{#each entityFields as field}
