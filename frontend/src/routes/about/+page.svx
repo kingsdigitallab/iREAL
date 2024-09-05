@@ -1,6 +1,6 @@
 # About the iREAL Dashboard
 
-Welcome to the iREAL (Inclusive Requirements Elicitation for AI in Libraries) Dashboard. This interactive tool presents data from 49 Aboriginal schools in New South Wales, Australia, spanning the 19th to early 20th century. The information has been extracted from historical records using AI and machine learning techniques, aiming to support respectful management of Indigenous Knowledges.
+Welcome to the iREAL (Inclusive Requirements Elicitation for AI in Libraries) Dashboard. This interactive tool presents data from 49 Aboriginal schools in New South Wales, Australia, spanning the 19th to early 20th century. The information has been extracted from historical records using AI and machine learning techniques, aiming to support the development of an approach to support libraries to respectfully manage Indigenous Knowledges in an AI deployment/development context.
 
 ## Project Overview
 
@@ -10,7 +10,7 @@ The iREAL project is an initiative to develop an inclusive requirements elicitat
 
 Our system architecture consists of four main components:
 
-1. **Data collection**: Historical records about NSW Aboriginal schools are available at...
+1. **Data collection**: Historical records about NSW Aboriginal schools are available at [NRS-3829 (part) List of Aboriginal school files, 1876–1979](https://mhnsw.au/articles/3829/)
 
 2. **Data pre-processing**: The original documents were converted into suitable formats for data processing (JSON and Markdown) to facilitate both backend analysis and frontend rendering.
 
@@ -28,7 +28,7 @@ We use a default entity extraction model to identify multiple entity types withi
 
 ### Geocoding of location entities
 
-After extracting location entities, we use a custom transformer to match these locations against a CSV file containing coordinates for places in NSW. This allows us to add geographical context to the extracted data.
+After extracting location entities, we use a custom transformer to match these locations against a [CSV file](https://data.gov.au/dataset/ds-dga-11cbf24a-a31a-488c-bc65-2811da2a8582/details?q=ABoriginal%20welfare%20board) containing coordinates for places in NSW. This allows us to add geographical context to the extracted data.
 
 ### Keyword extraction
 
@@ -44,7 +44,7 @@ The dashboard provides various ways to explore the extracted data:
 
 - **School Profiles**: View detailed information about each of the 49 Aboriginal schools, including historical context and extracted metadata.
 - **Topic and Keyword Exploration**: Discover common themes and important terms across the historical records.
-- **Organisations Exploration**: Discover...
+- **Organisations Exploration**: Discover which organisations are referenced in the files and how frequently they are mentioned.
 - **Interactive Map**: Explore the geographical distribution of schools using the geocoded location data.
 
 ## Ethical considerations
@@ -55,4 +55,4 @@ The iREAL project is committed to the respectful and ethical management of Indig
 
 We welcome feedback on this dashboard and the wider iREAL project. For more information about the technical implementation, please refer to our [GitHub repository](https://github.com/kingsdigitallab/ireal).
 
-This project is a collaboration between [relevant institutions], funded by [funding bodies], and developed with deep respect for the Indigenous communities of New South Wales.
+This project is a collaboration between University of Glasgow, the Jumbunna Institute for Indigenous Education and Research (University of Technology Sydney) and King's Digital Lab (King's College London), supported by the Arts and Humanities Research Council under the Bridging Responsible AI Divides Scheme [BRAID, grant number AH/Z505638/1], and developed with deep respect for the Indigenous communities of New South Wales.
