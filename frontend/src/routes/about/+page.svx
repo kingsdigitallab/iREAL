@@ -1,58 +1,38 @@
 # About the iREAL Dashboard
 
-Welcome to the iREAL (Inclusive Requirements Elicitation for AI in Libraries) Dashboard. This interactive tool presents data from 49 Aboriginal schools in New South Wales, Australia, spanning the 19th to early 20th century. The information has been extracted from historical records using AI and machine learning techniques, aiming to support the development of an approach to support libraries to respectfully manage Indigenous Knowledges in an AI deployment/development context.
+Welcome to the iREAL (Inclusive Requirements Elicitation for AI in Libraries) Dashboard. This interactive tool presents data from 49 Aboriginal schools in New South Wales, Australia, spanning the 19th to early 20th century. The information has been extracted from historical records using AI and machine learning techniques, aiming to support the development of an approach for libraries to respectfully manage Indigenous Knowledges in an AI deployment/development context.
 
-## Project Overview
+## Project Overview and Architecture
 
-The iREAL project is an initiative to develop an inclusive requirements elicitation system for AI in libraries, with a focus on Indigenous Australian communities. This dashboard is a key component of the project, allowing users to explore and interact with the extracted data from historical records about NSW schools that served Indigenous communities.
+The iREAL project is an initiative to develop an inclusive requirements elicitation system for AI in libraries, with a focus on Indigenous Australian communities. Our system architecture consists of four main components:
 
-## Architecture
+1. **Data collection**: Historical records about NSW Aboriginal schools from [NRS-3829 (part) List of Aboriginal school files, 1876–1979](https://mhnsw.au/articles/3829/)
+2. **Data pre-processing**: Conversion of original documents into JSON and Markdown formats for analysis and rendering.
+3. **Data extraction**: Use of AI/ML models to extract metadata, including entities, keywords, topics, and geographical information.
+4. **Dashboard**: This SvelteKit-built frontend interface for data exploration and visualisation.
 
-Our system architecture consists of four main components:
+## Data Extraction Techniques
 
-1. **Data collection**: Historical records about NSW Aboriginal schools are available at [NRS-3829 (part) List of Aboriginal school files, 1876–1979](https://mhnsw.au/articles/3829/)
+We employ several AI/ML techniques to extract meaningful information:
 
-2. **Data pre-processing**: The original documents were converted into suitable formats for data processing (JSON and Markdown) to facilitate both backend analysis and frontend rendering.
+- **Entity extraction**: Using [SpanMarker](https://huggingface.co/tomaarsen/span-marker-mbert-base-multinerd) to identify persons, organisations, locations, diseases, and years.
+- **Geocoding**: Matching extracted locations against a [CSV file](https://data.gov.au/dataset/ds-dga-11cbf24a-a31a-488c-bc65-2811da2a8582/details?q=ABoriginal%20welfare%20board) of NSW place coordinates.
+- **Keyword extraction**: Using [Mistral 7B](https://docs.mistral.ai/getting-started/models/) LLM to extract top 5 thematic keywords per text chunk.
+- **Topic extraction**: Using the LLM with a custom prompt to identify overarching topics.
 
-3. **Data extraction**: We employed AI/ML models to extract various types of metadata from the processed documents. This includes entities, keywords, topics, and geographical information.
+## Dashboard Features
 
-4. **Dashboard**: This frontend interface, built with SvelteKit, allows users to explore and visualize the extracted data.
+- **School Profiles**: Detailed information about each Aboriginal school, including historical context and extracted metadata.
+- **Topic and Keyword Exploration**: Discover common themes and important terms.
+- **Organisations Exploration**: Examine referenced organisations and their frequency of mention.
+- **Interactive Map**: Explore the geographical distribution of schools.
 
-## Data extraction
-
-We use several AI-powered techniques to extract meaningful information from the historical records:
-
-### Entity extraction
-
-We use a default entity extraction model to identify multiple entity types within the text, including persons, organizations, locations, diseases, and years.
-
-### Geocoding of location entities
-
-After extracting location entities, we use a custom transformer to match these locations against a [CSV file](https://data.gov.au/dataset/ds-dga-11cbf24a-a31a-488c-bc65-2811da2a8582/details?q=ABoriginal%20welfare%20board) containing coordinates for places in NSW. This allows us to add geographical context to the extracted data.
-
-### Keyword extraction
-
-For each chunk of text, we extract the top 5 keywords using a Language Model (LLM) with a custom prompt. This process is designed to exclude entity names from the keywords, focusing on thematic elements.
-
-### Topic extraction
-
-Building upon the entity extraction process, we use the LLM with a custom prompt to identify overarching topics within the text chunks.
-
-## How to use the dashboard
-
-The dashboard provides various ways to explore the extracted data:
-
-- **School Profiles**: View detailed information about each of the 49 Aboriginal schools, including historical context and extracted metadata.
-- **Topic and Keyword Exploration**: Discover common themes and important terms across the historical records.
-- **Organisations Exploration**: Discover which organisations are referenced in the files and how frequently they are mentioned.
-- **Interactive Map**: Explore the geographical distribution of schools using the geocoded location data.
-
-## Ethical considerations
+## Ethical Considerations
 
 The iREAL project is committed to the respectful and ethical management of Indigenous Knowledges. While AI and machine learning techniques have been used to process this historical data, we acknowledge the importance of human interpretation and Indigenous perspectives in understanding this information.
 
-## Feedback and further information
+## Feedback and Further Information
 
 We welcome feedback on this dashboard and the wider iREAL project. For more information about the technical implementation, please refer to our [GitHub repository](https://github.com/kingsdigitallab/ireal).
 
-This project is a collaboration between University of Glasgow, the Jumbunna Institute for Indigenous Education and Research (University of Technology Sydney) and King's Digital Lab (King's College London), supported by the Arts and Humanities Research Council under the Bridging Responsible AI Divides Scheme [BRAID, grant number AH/Z505638/1], and developed with deep respect for the Indigenous communities of New South Wales.
+This project is a collaboration between University of Glasgow, the Jumbunna Institute for Indigenous Education and Research (University of Technology Sydney) and King's Digital Lab (King's College London), supported by the Arts and Humanities Research Council under the Bridging Responsible AI Divides Scheme [BRAID, grant number AH/Z505638/1]. It has been developed with deep respect for the Indigenous communities of New South Wales.
