@@ -1,4 +1,4 @@
-import data from '$data/processed_data_20240903091603.json';
+import data from '$data/processed_data_20240904133435.json';
 import _ from 'lodash';
 import type { Facet, Node, Result, School } from './types';
 import * as config from './config';
