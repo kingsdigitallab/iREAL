@@ -6,7 +6,7 @@ Welcome to the iREAL (Inclusive Requirements Elicitation for AI in Libraries) Da
 
 The iREAL project is an initiative to develop an inclusive requirements elicitation system for AI in libraries, with a focus on Indigenous Australian communities. Our system architecture consists of four main components:
 
-1. **Data collection**: Historical records about NSW Aboriginal schools from [NRS-3829 (part) List of Aboriginal school files, 1876–1979](https://mhnsw.au/articles/3829/)
+1. **Data collection**: Historical records about NSW Aboriginal schools from [Museums of History NSW, NRS-3829 (part) List of Aboriginal school files, 1876–1979](https://mhnsw.au/articles/3829/)
 2. **Data pre-processing**: Conversion of original documents into JSON and Markdown formats for analysis and rendering.
 3. **Data extraction**: Use of AI/ML models to extract metadata, including entities, keywords, topics, and geographical information.
 4. **Dashboard**: This SvelteKit-built frontend interface for data exploration and visualisation.
@@ -30,6 +30,8 @@ We employ several AI/ML techniques to extract meaningful information:
 ## Ethical Considerations
 
 The iREAL project is committed to the respectful and ethical management of Indigenous Knowledges. While AI and machine learning techniques have been used to process this historical data, we acknowledge the importance of human interpretation and Indigenous perspectives in understanding this information.
+
+Glasgow University ethics approval was sought and approved to cover the project; UTS ethics approval was also sought and approved to cover work undertaken in Australia with community members.
 
 ## Feedback and Further Information
 
