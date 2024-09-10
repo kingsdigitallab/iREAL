@@ -7,7 +7,7 @@ export const url = dev ? 'https://localhost:5173/' : 'https://kingsdigitallab.gi
 
 export const github = 'https://github.com/kingsdigitallab/iREAL';
 
-export const entityFields = ['diseases', 'locations', 'organizations', 'persons', 'years'];
+export const entityFields = ['locations', 'organizations', 'persons'];
 
 export const topics = [
 	'education policies',
