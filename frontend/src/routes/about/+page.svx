@@ -73,3 +73,8 @@ Glasgow University ethics approval was sought and approved to cover the project;
 We welcome feedback on this dashboard and the wider iREAL project. For more information about the technical implementation, please refer to our [GitHub repository](https://github.com/kingsdigitallab/ireal).
 
 This project is a collaboration between University of Glasgow, the Jumbunna Institute for Indigenous Education and Research (University of Technology Sydney) and King's Digital Lab (King's College London), supported by the Arts and Humanities Research Council under the Bridging Responsible AI Divides Scheme [BRAID, grant number AH/Z505638/1]. It has been developed with deep respect for the Indigenous communities of New South Wales.
+
+### Contact
+
+- [Samantha Callaghan](mailto:samantha.callaghan@kcl.ac.uk)
+- [Paul Gooding](maito:paul.gooding@glasgow.ac.uk)
