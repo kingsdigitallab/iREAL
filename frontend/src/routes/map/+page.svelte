@@ -10,7 +10,11 @@
 <section>
 	<hgroup>
 		<h1>Map of the extracted locations</h1>
-		<p>Explore a visualisation of the geographical distribution of extracted locations.</p>
+		<p>
+			Explore a visualisation of the geographical distribution of extracted locations. The circles
+			in the map show the places that were extracted from the school records. Clicking on a circle
+			displays the school records where the place is mentioned.
+		</p>
 	</hgroup>
 	<FacetMap places={results.locations} />
 </section>
