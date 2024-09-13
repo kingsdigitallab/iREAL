@@ -1,5 +1,19 @@
 
 
+# [0.3.0](https://github.com/jmiguelv/iREAL/compare/v0.2.2...v0.3.0) (2024-09-10)
+
+
+### Bug Fixes
+
+* **frontend:** exclude diseases and years from the entities ([2e8931f](https://github.com/jmiguelv/iREAL/commit/2e8931f3467b9acb27e39d79ce5304bcf729962d))
+* **frontend:** remove duplicate column from the table ([7067aae](https://github.com/jmiguelv/iREAL/commit/7067aae1b3d8061f5138e05248c307f00f06be4a))
+
+
+### Features
+
+* **frontend:** add about page ([4c0e4c2](https://github.com/jmiguelv/iREAL/commit/4c0e4c28c475fa8d0a009dddb79608833acad5bf))
+* **frontend:** add latest version of the data ([15106fb](https://github.com/jmiguelv/iREAL/commit/15106fbb3a88c43a6465b506f15955a791000ed3))
+
 ## [0.2.2](https://github.com/jmiguelv/iREAL/compare/v0.2.1...v0.2.2) (2024-09-03)
 
 
