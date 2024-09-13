@@ -6,8 +6,8 @@ Welcome to the iREAL (Inclusive Requirements Elicitation for AI in Libraries) Da
 
 The iREAL project is an initiative to develop an inclusive requirements elicitation system for AI in libraries, with a focus on Indigenous Australian communities. Our system architecture consists of four main components:
 
-1. **Data collection**: Historical records about NSW Aboriginal schools from [NRS-3829 (part) List of Aboriginal school files, 1876–1979](https://mhnsw.au/articles/3829/)
-2. **Data pre-processing**: Conversion of original documents into JSON and Markdown formats for analysis and rendering.
+1. **Data collection**: Historical records about NSW Aboriginal schools from [Museums of History NSW, NRS-3829 (part) List of Aboriginal school files, 1876–1979](https://mhnsw.au/articles/3829/)
+2. **Data preparation**: Conversion of original documents into JSON and Markdown formats for analysis and rendering.
 3. **Data extraction**: Use of AI/ML models to extract metadata, including entities, keywords, topics, and geographical information.
 4. **Dashboard**: This SvelteKit-built frontend interface for data exploration and visualisation.
 
@@ -20,6 +20,41 @@ We employ several AI/ML techniques to extract meaningful information:
 - **Keyword extraction**: Using [Mistral 7B](https://docs.mistral.ai/getting-started/models/) LLM to extract top 5 thematic keywords per text chunk.
 - **Topic extraction**: Using the LLM with a custom prompt to identify overarching topics.
 
+### LLM Prompts
+
+We provide here a high-level overview of the prompts used in our LLM data extraction:
+
+- **Keyword extraction**: Our system prompts the LLM to provide 5 unique keywords for each document, excluding entity names. Keywords are returned in a comma-separated format.
+- **Topic extraction**: We use a curated list of topics relevant to Indigenous schools in NSW during the late 19th and early 20th century. The LLM assigns these predefined topics to each document based on its content.
+
+<details>
+<summary>Click to view LLM prompts</summary>
+
+#### Keyword Extraction Prompt
+
+```python
+"""Give 5 unique keywords for this document, do not use entity names as keywords,
+do not number the keywords, do not surround the keywords in quotes. Format as
+comma separated. Keywords: """
+```
+
+#### Topic Extraction Prompt
+
+```python
+"""You are a text classification expert. Your task is to assign short, generic 
+topic labels to the following text about Indigenous schools in NSW, Australia in
+the late 19th and early 20th century. Use only the following topics and nothing
+else: education policies, assimilation, cultural suppression, mission schools,
+government schools, Aboriginal reserves, segregation, curriculum, language 
+preservation, traditional knowledge, teacher training, attendance rates, funding
+issues, racism, health conditions, living conditions, vocational training,
+religious instruction, child removal policies, Indigenous resistance.
+{context_str}. Give {topics} unique topics for this document.Format as comma
+separated. Topics:"""
+```
+
+</details>
+
 ## Dashboard Features
 
 - **School Profiles**: Detailed information about each Aboriginal school, including historical context and extracted metadata.
@@ -31,8 +66,15 @@ We employ several AI/ML techniques to extract meaningful information:
 
 The iREAL project is committed to the respectful and ethical management of Indigenous Knowledges. While AI and machine learning techniques have been used to process this historical data, we acknowledge the importance of human interpretation and Indigenous perspectives in understanding this information.
 
+Glasgow University ethics approval was sought and approved to cover the project; UTS ethics approval was also sought and approved to cover work undertaken in Australia with community members.
+
 ## Feedback and Further Information
 
 We welcome feedback on this dashboard and the wider iREAL project. For more information about the technical implementation, please refer to our [GitHub repository](https://github.com/kingsdigitallab/ireal).
 
 This project is a collaboration between University of Glasgow, the Jumbunna Institute for Indigenous Education and Research (University of Technology Sydney) and King's Digital Lab (King's College London), supported by the Arts and Humanities Research Council under the Bridging Responsible AI Divides Scheme [BRAID, grant number AH/Z505638/1]. It has been developed with deep respect for the Indigenous communities of New South Wales.
+
+### Contact
+
+- [Samantha Callaghan](mailto:samantha.callaghan@kcl.ac.uk)
+- [Paul Gooding](maito:paul.gooding@glasgow.ac.uk)
