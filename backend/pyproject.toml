@@ -24,6 +24,9 @@ transformers = "<4.41"
 llama-index-storage-kvstore-redis = "^0.1.5"
 pandas = "^2.2.2"
 llama-index-retrievers-bm25 = "^0.2.2"
+openinference-instrumentation-llama-index = ">=2"
+opentelemetry-proto = ">=1.12.0"
+arize-phoenix-otel = "^0.5.0"
 
 [tool.poetry.group.dev.dependencies]
 isort = "^5.13.2"
