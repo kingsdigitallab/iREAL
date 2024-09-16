@@ -186,6 +186,12 @@ Sample queries can be found in [Sharepoint](<https://emckclac.sharepoint.com/:w:
 
   >RAG 3.933:  The teachers mentioned in the provided context are Mr Samuel Bennett (initially), Mr Ussher, and Miss Daisy V Hubbard.
 
+## Monitoring
+
+Observability has been implemented via [Arize Phoenix](https://docs.arize.com/phoenix) to provide insights into the RAG.
+This improves the transparency and debuggability of the implementation. The observability dashboard can be accessed at
+[http://localhost:6006](http:localhost:6006) by default.
+
 ## Resources
 
 ### Tutorials
@@ -209,6 +215,7 @@ Sample queries can be found in [Sharepoint](<https://emckclac.sharepoint.com/:w:
 
 ### Observability
 
+- [Arize Phoenix](https://docs.arize.com/phoenix/tracing/integrations-tracing/llamaindex)
 - [Langfuse](https://langfuse.com)
 - [LlamaIndex Langfuse Callback Handler](https://docs.llamaindex.ai/en/stable/examples/observability/LangfuseCallbackHandler/)
 
