@@ -6,6 +6,11 @@ import uuid
 
 import nest_asyncio
 import Stemmer
+from app.engine.transformers import (
+    GeocodeLocationsTransformer,
+    TopicExtractor,
+    YearsTransformer,
+)
 from dotenv import load_dotenv
 from llama_index.core import (
     Document,
@@ -28,23 +33,29 @@ from llama_index.core.query_engine import (
     RetryQueryEngine,
     TransformQueryEngine,
 )
+from llama_index.core.retrievers import QueryFusionRetriever
 from llama_index.embeddings.ollama import OllamaEmbedding
 from llama_index.extractors.entity import EntityExtractor
 from llama_index.llms.ollama.base import DEFAULT_REQUEST_TIMEOUT, Ollama
-from llama_index.core.retrievers import QueryFusionRetriever
 from llama_index.retrievers.bm25 import BM25Retriever
 from llama_index.storage.kvstore.redis import RedisKVStore as RedisCache
 from llama_index.vector_stores.qdrant import QdrantVectorStore
+from openinference.instrumentation.llama_index import LlamaIndexInstrumentor
+from phoenix.otel import register
 from qdrant_client import AsyncQdrantClient, QdrantClient
-
-from app.engine.transformers import (
-    GeocodeLocationsTransformer,
-    TopicExtractor,
-    YearsTransformer,
-)
 
 load_dotenv()
 nest_asyncio.apply()
+
+
+tracer_provider = register(
+    project_name=os.getenv("VECTOR_STORE_COLLECTION_NAME"),
+    endpoint=os.getenv("ARIZE_PHOENIX_ENDPOINT"),
+)
+
+LlamaIndexInstrumentor().instrument(
+    tracer_provider=tracer_provider, use_legacy_callback_handler=True
+)
 
 
 def main():
