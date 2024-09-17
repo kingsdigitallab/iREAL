@@ -291,7 +291,7 @@ def run_chat_session():
     base_query_engine = index.as_query_engine(
         streaming=True,
         similarity_top_k=top_k,
-        text_qa_template=prompt_template,
+        text_qa_template=prompt_template.get_template(),
         verbose=True,
     )
 
@@ -310,7 +310,9 @@ def run_chat_session():
         use_async=True,
     )
 
-    retriever_query_engine = RetrieverQueryEngine(retriever)
+    retriever_query_engine = RetrieverQueryEngine.from_args(
+        retriever=retriever, text_qa_template=prompt_template
+    )
 
     try:
         while True:
