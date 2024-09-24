@@ -48,18 +48,9 @@ load_dotenv()
 nest_asyncio.apply()
 
 
-tracer_provider = register(
-    project_name=os.getenv("VECTOR_STORE_COLLECTION_NAME"),
-    endpoint=os.getenv("ARIZE_PHOENIX_ENDPOINT"),
-)
-
-LlamaIndexInstrumentor().instrument(
-    tracer_provider=tracer_provider, use_legacy_callback_handler=True
-)
-
-
 def main():
     init_settings()
+    init_observability()
 
     parser = argparse.ArgumentParser(
         description="Index and query school records using LlamaIndex and Elasticsearch."
@@ -106,6 +97,17 @@ def init_settings():
 
     Settings.chunk_size = int(os.getenv("CHUNK_SIZE", "512"))
     Settings.chunk_overlap = int(os.getenv("CHUNK_OVERLAP", "32"))
+
+
+def init_observability():
+    tracer_provider = register(
+        project_name=os.getenv("VECTOR_STORE_COLLECTION_NAME"),
+        endpoint=os.getenv("ARIZE_PHOENIX_ENDPOINT"),
+    )
+
+    LlamaIndexInstrumentor().instrument(
+        tracer_provider=tracer_provider, use_legacy_callback_handler=True
+    )
 
 
 def run_ingestion_pipeline():
@@ -277,14 +279,28 @@ def run_bm25_pipeline():
 
 
 def run_chat_session():
+    try:
+        while True:
+            print()
+            query = input("Researcher: ")
+            query_engine = (
+                input("(B)ase, [R]etriever, Retr(y), (H)yDe: ").strip().lower()
+            )
+            response = process_query(query, query_engine)
+            print_response(response)
+    except (EOFError, KeyboardInterrupt):
+        print("Exiting...")
+
+
+def process_query(query, query_engine_type: str = "r", prompt: str = None):
     vector_store = get_vector_store()
     index = VectorStoreIndex.from_vector_store(vector_store)
-
     top_k = int(os.getenv("TOP_K", "5"))
 
-    prompt_path = os.getenv("PROMPT_PATH") or "data/0_raw/prompt.txt"
-    with open(prompt_path, "r") as file:
-        prompt = file.read()
+    if prompt is None:
+        prompt_path = os.getenv("PROMPT_PATH") or "data/0_raw/prompt.txt"
+        with open(prompt_path, "r") as file:
+            prompt = file.read()
 
     prompt_template = PromptTemplate(prompt)
 
@@ -294,13 +310,10 @@ def run_chat_session():
         text_qa_template=prompt_template.get_template(),
         verbose=True,
     )
-
     query_response_evaluator = RelevancyEvaluator()
     retry_query_engine = RetryQueryEngine(base_query_engine, query_response_evaluator)
-
     hyde = HyDEQueryTransform(include_original=True)
     hyde_query_engine = TransformQueryEngine(base_query_engine, hyde)
-
     retriever = QueryFusionRetriever(
         [
             index.as_retriever(similarity_top_k=top_k),
@@ -309,35 +322,23 @@ def run_chat_session():
         num_queries=1,
         use_async=True,
     )
+    retriever_query_engine = RetrieverQueryEngine(retriever)
 
-    retriever_query_engine = RetrieverQueryEngine.from_args(
-        retriever=retriever, text_qa_template=prompt_template
+    query_bundle = QueryBundle(
+        query, embedding=Settings.embed_model.get_query_embedding(query)
     )
 
-    try:
-        while True:
-            print()
-            query = input("Researcher: ")
-            query_engine = input("(B)ase, [R]etriever, Retr(y), (H)yDe: ")
-            query_engine = query_engine.strip().lower()
+    if query_engine_type == "r" or not query_engine_type:
+        return retriever_query_engine.query(query_bundle)
 
-            query_bundle = QueryBundle(
-                query, embedding=Settings.embed_model.get_query_embedding(query)
-            )
+    if query_engine_type == "b":
+        return base_query_engine.query(query_bundle)
 
-            if query_engine == "b":
-                response = base_query_engine.query(query_bundle)
-            elif query_engine == "y":
-                response = retry_query_engine.query(query_bundle)
-            elif query_engine == "h":
-                response = hyde_query_engine.query(query_bundle)
-            else:
-                response = retriever_query_engine.query(query_bundle)
+    if query_engine_type == "y":
+        return retry_query_engine.query(query_bundle)
 
-            print_response(response)
-    except (EOFError, KeyboardInterrupt):
-        print("Exiting...")
-        pass
+    if query_engine_type == "h":
+        return hyde_query_engine.query(query_bundle)
 
 
 def print_response(response):
