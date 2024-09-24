@@ -1,5 +1,22 @@
 
 
+# [0.4.0](https://github.com/jmiguelv/iREAL/compare/v0.3.0...v0.4.0) (2024-09-24)
+
+
+### Bug Fixes
+
+* **backend:** add prompt to the retriever query engine ([234af2e](https://github.com/jmiguelv/iREAL/commit/234af2e5c8d8c12c193b84528d3263db462e6756))
+* **frontend:** use data preparation instead of pre-processing ([3aec3bb](https://github.com/jmiguelv/iREAL/commit/3aec3bbf17a6051de4d71bbf825d93e0bc0d2a4f))
+
+
+### Features
+
+* **backend:** enable observability ([ff4c14f](https://github.com/jmiguelv/iREAL/commit/ff4c14f56876f69f7e4eac475ab5e40cafd1bd61))
+* **frontend:** add contact details ([b58760e](https://github.com/jmiguelv/iREAL/commit/b58760efb7be7f9aa6e9f1c66d0ea99570f110c6))
+* **frontend:** add llm prompts ([ee56c55](https://github.com/jmiguelv/iREAL/commit/ee56c55163a76746a4656fb92e7a7bee52ba20c0))
+* **frontend:** expand the ethics section ([ac94052](https://github.com/jmiguelv/iREAL/commit/ac9405288310d88052126f1194c3b5fce5656c9a))
+* **frontend:** expand the explanation about the map view ([ca7a312](https://github.com/jmiguelv/iREAL/commit/ca7a31225823333cda76d90b81cba83ac7e90461))
+
 # [0.3.0](https://github.com/jmiguelv/iREAL/compare/v0.2.2...v0.3.0) (2024-09-10)
 
 
