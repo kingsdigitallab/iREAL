@@ -47,10 +47,18 @@ from qdrant_client import AsyncQdrantClient, QdrantClient
 load_dotenv()
 nest_asyncio.apply()
 
+tracer_provider = register(
+    project_name=os.getenv("VECTOR_STORE_COLLECTION_NAME"),
+    endpoint=os.getenv("ARIZE_PHOENIX_ENDPOINT"),
+)
+
+LlamaIndexInstrumentor().instrument(
+    tracer_provider=tracer_provider, use_legacy_callback_handler=True
+)
+
 
 def main():
     init_settings()
-    init_observability()
 
     parser = argparse.ArgumentParser(
         description="Index and query school records using LlamaIndex and Elasticsearch."
@@ -97,17 +105,6 @@ def init_settings():
 
     Settings.chunk_size = int(os.getenv("CHUNK_SIZE", "512"))
     Settings.chunk_overlap = int(os.getenv("CHUNK_OVERLAP", "32"))
-
-
-def init_observability():
-    tracer_provider = register(
-        project_name=os.getenv("VECTOR_STORE_COLLECTION_NAME"),
-        endpoint=os.getenv("ARIZE_PHOENIX_ENDPOINT"),
-    )
-
-    LlamaIndexInstrumentor().instrument(
-        tracer_provider=tracer_provider, use_legacy_callback_handler=True
-    )
 
 
 def run_ingestion_pipeline():
@@ -292,7 +289,7 @@ def run_chat_session():
         print("Exiting...")
 
 
-def process_query(query, query_engine_type: str = "r", prompt: str = None):
+def process_query(query: str, query_engine_type: str, prompt: str = None):
     vector_store = get_vector_store()
     index = VectorStoreIndex.from_vector_store(vector_store)
     top_k = int(os.getenv("TOP_K", "5"))
@@ -322,7 +319,9 @@ def process_query(query, query_engine_type: str = "r", prompt: str = None):
         num_queries=1,
         use_async=True,
     )
-    retriever_query_engine = RetrieverQueryEngine(retriever)
+    retriever_query_engine = RetrieverQueryEngine.from_args(
+        retriever=retriever, text_qa_template=prompt_template
+    )
 
     query_bundle = QueryBundle(
         query, embedding=Settings.embed_model.get_query_embedding(query)
