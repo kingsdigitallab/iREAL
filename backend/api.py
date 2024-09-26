@@ -2,7 +2,7 @@ import logging
 import os
 
 import uvicorn
-from cli import init_observability, init_settings, process_query
+from cli import init_settings, process_query
 from dotenv import load_dotenv
 from fastapi import FastAPI, Request
 from fastapi.responses import RedirectResponse
@@ -12,7 +12,6 @@ load_dotenv()
 app = FastAPI()
 
 init_settings()
-init_observability()
 
 environment = os.getenv("ENVIRONMENT", "dev")
 logger = logging.getLogger("uvicorn")
@@ -63,7 +62,6 @@ async def query_api(request: Request):
 
     if not query:
         logger.error("No query provided in request")
-        # return error response
         return {"error": "No query provided in request"}
 
     return process_query(query, query_engine_type, prompt)
@@ -72,6 +70,11 @@ async def query_api(request: Request):
 if __name__ == "__main__":
     app_host = os.getenv("APP_HOST", "0.0.0.0")
     app_port = int(os.getenv("APP_PORT", 8000))
+    app_workers = int(os.getenv("APP_WORKERS", 4))
     reload = True if environment == "dev" else False
 
-    uvicorn.run(app="api:app", host=app_host, port=app_port, reload=reload)
+    logger.info(f"Starting FastAPI server on {app_host}:{app_port}")
+
+    uvicorn.run(
+        app="api:app", host=app_host, port=app_port, reload=reload, workers=app_workers
+    )
