@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
-	import { apiUrl, promptTemplate } from '$lib/config';
+	import { apiUrl, promptDefault, promptTemplate } from '$lib/config';
 	import pkg from 'lodash';
 	import { RefreshCwIcon, Trash2Icon } from 'lucide-svelte';
 	import { marked } from 'marked';
@@ -274,6 +274,10 @@
 				rows="10"
 				cols="80"
 			></textarea>
+			<details>
+				<summary>Default prompt</summary>
+				<div>{@html marked.parse(promptDefault)}</div>
+			</details>
 			<footer>
 				<button class="secondary" on:click={() => (showCustomisePrompt = false)}>Cancel</button>
 				<button on:click={saveBotPrompt}>Save</button>
