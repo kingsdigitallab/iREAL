@@ -214,7 +214,7 @@
 		<hgroup>
 			<h2>Example questions</h2>
 			<p>
-				AI-generated questions, created during data processing to help explore the school records.
+				AI-generated questions, created during data processing, to help explore the school records.
 				These change randomly and may occasionally be imperfect.
 			</p>
 		</hgroup>
