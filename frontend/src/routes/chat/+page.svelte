@@ -154,7 +154,7 @@
 		<p>
 			Explore the school records through an AI-powered question-answering system. Ask about schools,
 			events, or any aspect of the records information. To get started click on one of the example
-			questions below or enter your own in to the text box.
+			questions below or enter your own into the text box.
 		</p>
 	</hgroup>
 </section>
