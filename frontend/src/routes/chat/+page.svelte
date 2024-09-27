@@ -144,11 +144,11 @@
 
 <section>
 	<hgroup>
-		<h1>Interactive School Records Chatbot</h1>
+		<h1>Interactive school records <em>chatbot</em></h1>
 		<p>
-			Explore the school records through an AI-powered question-answering system. Ask about
-			teachers, events, or any aspect of the records information. To get started click on one of the
-			example questions below or enter your own in to the text box.
+			Explore the school records through an AI-powered question-answering system. Ask about schools,
+			events, or any aspect of the records information. To get started click on one of the example
+			questions below or enter your own in to the text box.
 		</p>
 	</hgroup>
 </section>
