@@ -27,6 +27,7 @@
 	let chatHistory: {
 		[timestamp: number]: {
 			question: string;
+			isRetry: boolean;
 			answer: {
 				source_nodes?: never[];
 				response: string;
@@ -43,7 +44,7 @@
 		showExampleQuestions = !showExampleQuestions;
 	}
 
-	async function handleSubmit() {
+	async function handleSubmit(retry: boolean = false) {
 		if (!query) {
 			return;
 		}
@@ -55,6 +56,7 @@
 		const timestamp = Date.now();
 		chatHistory[timestamp] = {
 			question: query,
+			isRetry: retry,
 			answer: {
 				response: ''
 			}
@@ -101,6 +103,11 @@
 	async function handleExampleQuestion(question: string) {
 		query = question;
 		handleSubmit();
+	}
+
+	async function handleRetryQuestion(question: string) {
+		query = question;
+		handleSubmit(true);
 	}
 
 	async function deleteChat(timestamp: number) {
@@ -152,9 +159,12 @@
 			<article>
 				<header>
 					<h2>{chat.question}</h2>
-					<datetime datetime={new Date(parseInt(timestamp)).toISOString()}
-						>{new Date(parseInt(timestamp)).toLocaleString()}</datetime
-					>
+					<div class="meta">
+						<datetime datetime={new Date(parseInt(timestamp)).toISOString()}
+							>{new Date(parseInt(timestamp)).toLocaleString()}</datetime
+						>
+						{#if chat.isRetry}<mark>Retried question</mark>{/if}
+					</div>
 				</header>
 				{#if chat.answer && chat.answer.response}
 					<section class="answer">{@html marked.parse(chat.answer.response)}</section>
@@ -177,7 +187,7 @@
 						<button
 							class="ask-again outline"
 							title="Ask again"
-							on:click={() => handleExampleQuestion(chat.question)}><RefreshCwIcon /></button
+							on:click={() => handleRetryQuestion(chat.question)}><RefreshCwIcon /></button
 						>
 						<button
 							class="delete-chat outline"
@@ -299,6 +309,11 @@
 
 	.chat-history article footer {
 		text-align: right;
+	}
+
+	div.meta {
+		display: flex;
+		justify-content: space-between;
 	}
 
 	.answer {
