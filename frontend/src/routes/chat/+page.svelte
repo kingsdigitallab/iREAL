@@ -61,6 +61,8 @@
 
 		isBusy = true;
 
+		console.log('retry', retry);
+
 		const timestamp = Date.now();
 		chatHistory[timestamp] = {
 			question: query,
@@ -225,7 +227,7 @@
 								class="feedback positive outline"
 								class:secondary={chat.feedback === false}
 								class:filled={chat.feedback === true}
-								data-tooltip="Good answer"
+								data-tooltip="Yes, it was a good answer"
 								on:click={() => handleFeedback(parseInt(timestamp), chat.spanId, true)}
 								><ThumbsUpIcon /></button
 							>
@@ -233,7 +235,7 @@
 								class="feedback negative outline"
 								class:secondary={chat.feedback === true}
 								class:filled={chat.feedback === false}
-								data-tooltip="Bad answer"
+								data-tooltip="No, it was a bad answer"
 								on:click={() => handleFeedback(parseInt(timestamp), chat.spanId, false)}
 								><ThumbsDownIcon /></button
 							>
@@ -294,7 +296,7 @@
 {/if}
 
 <section bind:this={element}>
-	<form on:submit|preventDefault={handleSubmit}>
+	<form on:submit|preventDefault={() => handleSubmit()}>
 		<!-- svelte-ignore a11y-no-redundant-roles -->
 		<fieldset role="group">
 			<input
