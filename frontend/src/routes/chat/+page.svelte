@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
-	import { apiUrl, promptDefault, promptTemplate } from '$lib/config';
+	import { apiEndpoint, promptDefault, promptTemplate } from '$lib/config';
 	import pkg from 'lodash';
-	import { RefreshCwIcon, Trash2Icon } from 'lucide-svelte';
+	import { RefreshCwIcon, Trash2Icon, ThumbsUpIcon, ThumbsDownIcon } from 'lucide-svelte';
 	import { marked } from 'marked';
 	import { onMount } from 'svelte';
 	import type { PageData } from './$types';
@@ -32,6 +32,8 @@
 				source_nodes?: never[];
 				response: string;
 			};
+			spanId: string;
+			feedback?: boolean;
 		};
 	} = browser && JSON.parse(localStorage.getItem('chatHistory') || '{}');
 	let isBusy = false;
@@ -65,7 +67,8 @@
 			isRetry: retry,
 			answer: {
 				response: ''
-			}
+			},
+			spanId: ''
 		};
 
 		const body: { q: string; prompt?: string } = { q: query };
@@ -75,7 +78,7 @@
 
 		query = '';
 
-		const response = await fetch(apiUrl, {
+		const response = await fetch(`${apiEndpoint}/query`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'
@@ -84,8 +87,9 @@
 		});
 
 		if (response.ok) {
-			const answer = await response.json();
-			chatHistory[timestamp].answer = answer;
+			const json = await response.json();
+			chatHistory[timestamp].answer = json.response;
+			chatHistory[timestamp].spanId = json.span_id;
 		} else {
 			console.error('Failed to get an answer:', response);
 			chatHistory[timestamp].answer = { response: 'Error: Failed to get an answer' };
@@ -143,6 +147,31 @@
 		}
 	}
 
+	async function handleFeedback(timestamp: number, spanId: string, isPositive: boolean) {
+		chatHistory[timestamp].feedback = isPositive;
+		chatHistory = chatHistory;
+
+		localStorage.setItem('chatHistory', JSON.stringify(chatHistory));
+
+		try {
+			const response = await fetch(`${apiEndpoint}/feedback`, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({ span_id: spanId, is_positive: isPositive })
+			});
+
+			if (response.ok) {
+				console.log(`Feedback submitted successfully for span ID: ${spanId}`);
+			} else {
+				console.error('Failed to submit feedback:', response);
+			}
+		} catch (error) {
+			console.error('Error submitting feedback:', error);
+		}
+	}
+
 	onMount(() => {
 		scrollToBottom();
 	});
@@ -190,16 +219,37 @@
 						{/each}
 					</details>
 					<footer>
-						<button
-							class="ask-again outline"
-							title="Ask again"
-							on:click={() => handleRetryQuestion(chat.question)}><RefreshCwIcon /></button
-						>
-						<button
-							class="delete-chat outline"
-							title="Delete this entry"
-							on:click={() => deleteChat(parseInt(timestamp))}><Trash2Icon /></button
-						>
+						<div class="feedback-buttons">
+							<span>Was this answer helpful?</span>
+							<button
+								class="feedback positive outline"
+								class:secondary={chat.feedback === false}
+								class:filled={chat.feedback === true}
+								data-tooltip="Good answer"
+								on:click={() => handleFeedback(parseInt(timestamp), chat.spanId, true)}
+								><ThumbsUpIcon /></button
+							>
+							<button
+								class="feedback negative outline"
+								class:secondary={chat.feedback === true}
+								class:filled={chat.feedback === false}
+								data-tooltip="Bad answer"
+								on:click={() => handleFeedback(parseInt(timestamp), chat.spanId, false)}
+								><ThumbsDownIcon /></button
+							>
+						</div>
+						<div class="action-buttons">
+							<button
+								class="ask-again outline"
+								data-tooltip="Ask again"
+								on:click={() => handleRetryQuestion(chat.question)}><RefreshCwIcon /> Retry</button
+							>
+							<button
+								class="delete-chat outline"
+								data-tooltip="Delete this entry"
+								on:click={() => deleteChat(parseInt(timestamp))}><Trash2Icon /> Delete</button
+							>
+						</div>
 					</footer>
 				{:else if isBusy}
 					<progress />
@@ -390,6 +440,9 @@
 
 	.chat-history article footer {
 		text-align: right;
+		display: flex;
+		justify-content: space-between;
+		gap: 0.5rem;
 	}
 
 	div.meta {
@@ -404,5 +457,16 @@
 
 	details summary {
 		font-weight: bold;
+	}
+
+	.feedback-buttons button {
+		border: none;
+		padding-inline: unset;
+	}
+
+	.feedback.filled {
+		& svg {
+			stroke-width: 3px;
+		}
 	}
 </style>
