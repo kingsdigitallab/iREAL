@@ -41,15 +41,18 @@ from llama_index.retrievers.bm25 import BM25Retriever
 from llama_index.storage.kvstore.redis import RedisKVStore as RedisCache
 from llama_index.vector_stores.qdrant import QdrantVectorStore
 from openinference.instrumentation.llama_index import LlamaIndexInstrumentor
+from openinference.semconv.trace import SpanAttributes
+from opentelemetry import trace
 from phoenix.otel import register
 from qdrant_client import AsyncQdrantClient, QdrantClient
 
 load_dotenv()
 nest_asyncio.apply()
 
+
 tracer_provider = register(
     project_name=os.getenv("VECTOR_STORE_COLLECTION_NAME"),
-    endpoint=os.getenv("ARIZE_PHOENIX_ENDPOINT"),
+    endpoint=f"{os.getenv('ARIZE_PHOENIX_ENDPOINT')}/v1/traces",
 )
 
 LlamaIndexInstrumentor().instrument(
@@ -283,7 +286,8 @@ def run_chat_session():
             query_engine = (
                 input("(B)ase, [R]etriever, Retr(y), (H)yDe: ").strip().lower()
             )
-            response = process_query(query, query_engine)
+            response, span_id = process_query(query, query_engine)
+            print(f"Span ID: {span_id}")
             print_response(response)
     except (EOFError, KeyboardInterrupt):
         print("Exiting...")
@@ -327,17 +331,28 @@ def process_query(query: str, query_engine_type: str, prompt: str = None):
         query, embedding=Settings.embed_model.get_query_embedding(query)
     )
 
-    if query_engine_type == "r" or not query_engine_type:
-        return retriever_query_engine.query(query_bundle)
+    query_engine_map = {
+        "r": retriever_query_engine,
+        "b": base_query_engine,
+        "y": retry_query_engine,
+        "h": hyde_query_engine,
+    }
+    query_engine = query_engine_map.get(query_engine_type, retriever_query_engine)
 
-    if query_engine_type == "b":
-        return base_query_engine.query(query_bundle)
+    if query_engine:
+        with trace.get_tracer(__name__).start_as_current_span(
+            f"query_{query_engine_type or 'r'}", kind=trace.SpanKind.SERVER
+        ) as span:
+            span.set_attribute(SpanAttributes.INPUT_VALUE, query)
+            span.set_attribute(SpanAttributes.OPENINFERENCE_SPAN_KIND, "SERVER")
 
-    if query_engine_type == "y":
-        return retry_query_engine.query(query_bundle)
+            response = query_engine.query(query_bundle)
 
-    if query_engine_type == "h":
-        return hyde_query_engine.query(query_bundle)
+            span_id = span.get_span_context().span_id.to_bytes(8, "big").hex()
+
+            return response, span_id
+    else:
+        raise ValueError(f"Invalid query engine type: {query_engine_type}")
 
 
 def print_response(response):
