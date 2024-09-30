@@ -3,8 +3,8 @@ import { dev } from '$app/environment';
 export const title = 'iREAL';
 export const description =
 	'Inclusive Requirements Elicitation for AI in Libraries to Support Respectful Management of Indigenous Knowledges';
-export const url = dev ? 'http://localhost:5173/' : 'https://kingsdigitallab.github.io/ireal/';
-export const apiEndpoint = dev ? 'http://localhost:8000/api' : 'https://ireal.kdl.kcl.ac.uk/api';
+export const url = dev ? 'http://localhost:5173/' : 'https://ireal.vercel.app/';
+export const apiEndpoint = dev ? 'http://localhost/api' : 'https://ireal.kdl.kcl.ac.uk/api';
 
 export const promptDefault = `
 You are an AI assistant specializing in Aboriginal studies, with a focus on Aboriginal education in New South Wales, Australia. Your role is to provide informative, respectful, and culturally sensitive responses about Aboriginal schools in NSW, their history, status, and impact on Aboriginal communities.
