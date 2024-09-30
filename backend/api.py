@@ -1,6 +1,7 @@
 import logging
 import os
 
+import httpx
 import uvicorn
 from cli import init_settings, process_query
 from dotenv import load_dotenv
@@ -72,7 +73,78 @@ async def query_api(request: Request):
         logger.error("No query provided in request")
         return {"error": "No query provided in request"}
 
-    return process_query(query, query_engine_type, prompt)
+    response, span_id = process_query(query, query_engine_type, prompt)
+
+    return {"response": response, "span_id": span_id}
+
+
+@app.post("/api/feedback")
+async def submit_feedback(request: Request):
+    """
+    This function handles POST requests to the '/api/feedback' endpoint.
+    It receives a FastAPI Request object containing feedback data for a specific span ID.
+
+    Parameters:
+    request (Request): A FastAPI Request object containing the incoming request.
+        It is expected to have the following parameters in the JSON body:
+        - 'span_id' (str): The span ID for which feedback is being submitted.
+        - 'is_positive' (bool): A boolean indicating whether the feedback is positive (True) or negative (False).
+
+    Returns:
+    dict: A JSON response with the following structure:
+        - 'message' (str): A confirmation message indicating the feedback was received.
+        - 'error' (str, optional): An error message if an error occurred during processing.
+    """
+    try:
+        body = await request.json()
+        span_id = body.get("span_id")
+        is_positive = body.get("is_positive")
+
+        if span_id is None or is_positive is None:
+            logger.error("Missing required parameters in feedback request")
+            return {
+                "error": "Missing required parameters. Both 'spanId' and 'isPositive' must be provided."
+            }
+
+        logger.info(
+            f"Received feedback for span ID {span_id}: {'Positive' if is_positive else 'Negative'}"
+        )
+
+        client = httpx.Client()
+        phoenix_endpoint = os.getenv("ARIZE_PHOENIX_ENDPOINT").strip()
+
+        annotation_payload = {
+            "data": [
+                {
+                    "span_id": span_id,
+                    "name": "user feedback",
+                    "annotator_kind": "HUMAN",
+                    "result": {
+                        "label": "thumbs-up",
+                        "score": 1 if is_positive else 0,
+                    },
+                }
+            ]
+        }
+
+        try:
+            response = client.post(
+                f"{phoenix_endpoint}/v1/span_annotations?sync=false",
+                json=annotation_payload,
+            )
+
+            response.raise_for_status()
+        except httpx.HTTPStatusError as e:
+            logger.error(f"HTTP error occurred while sending feedback to Phoenix: {e}")
+        except Exception as e:
+            logger.error(
+                f"An error occurred while sending feedback to Phoenix: {str(e)}"
+            )
+
+        return {"message": f"Feedback received for span ID {span_id}"}
+    except Exception as e:
+        logger.error(f"Error processing feedback: {str(e)}")
+        return {"error": "An error occurred while processing the feedback"}
 
 
 if __name__ == "__main__":
