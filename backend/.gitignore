@@ -169,3 +169,6 @@ data/*
 !data/0_raw/
 data/0_raw/*
 !data/0_raw/prompt.txt
+
+# Local
+docker-compose.override.yml
