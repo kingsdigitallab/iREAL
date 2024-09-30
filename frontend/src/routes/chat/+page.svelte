@@ -61,8 +61,6 @@
 
 		isBusy = true;
 
-		console.log('retry', retry);
-
 		const timestamp = Date.now();
 		chatHistory[timestamp] = {
 			question: query,
@@ -164,9 +162,7 @@
 				body: JSON.stringify({ span_id: spanId, is_positive: isPositive })
 			});
 
-			if (response.ok) {
-				console.log(`Feedback submitted successfully for span ID: ${spanId}`);
-			} else {
+			if (!response.ok) {
 				console.error('Failed to submit feedback:', response);
 			}
 		} catch (error) {
