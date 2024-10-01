@@ -174,3 +174,39 @@ export async function getSchoolNodes(slug: string): Promise<Node[]> {
 	const nodes = await getAllNodes();
 	return nodes.filter((node) => node.file === `${slug}.json`);
 }
+
+export async function getQuestions(): Promise<string[]> {
+	const questionWords = [
+		'Are',
+		'Can',
+		'Could',
+		'Did',
+		'Do',
+		'Does',
+		'How',
+		'Is',
+		'What',
+		'When',
+		'Where',
+		'Which',
+		'Who',
+		'Whom',
+		'Whose',
+		'Why'
+	];
+
+	const nodes = await getAllNodes();
+
+	return _(nodes)
+		.flatMap('questions_this_excerpt_can_answer')
+		.filter((question) => question.startsWith('1. '))
+		.flatMap((question) => question.split('\n\n'))
+		.map((question) => question.trim())
+		.map((question) => question.split('\n').shift().trim())
+		.map((question) => question.split('(').shift().trim())
+		.map((question) => question.replace(/^\d+\.\s+/, ''))
+		.map((question) => question.replace('Question: ', ''))
+		.filter((question) => questionWords.some((word) => question.startsWith(word)))
+		.uniq()
+		.value();
+}

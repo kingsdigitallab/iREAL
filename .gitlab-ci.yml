@@ -1,0 +1,29 @@
+image: gitlab.kdl.kcl.ac.uk:5050/docker-images/core/kdl-ubuntu/kdl-ubuntu-ci:22.04
+
+include:
+  - remote: "https://gitlab.kdl.kcl.ac.uk/kdl_projects/gitlab-ci-components/-/raw/main/templates/git.yml"
+  - remote: "https://gitlab.kdl.kcl.ac.uk/kdl_projects/gitlab-ci-components/-/raw/main/templates/kdl.yml"
+
+deploy_prod:
+  stage: deploy
+  environment:
+    name: prod
+  id_tokens:
+    VAULT_ID_TOKEN:
+      aud: ${VAULT_ADDR}
+
+  before_script:
+    - !reference [.kdl:key:add, before_script]
+
+  script:
+    - !reference [.git:ssh:pull, script]
+    - >
+      ssh ${DEPLOY_USER}@${DEPLOY_HOST}
+      "
+        cd ${DEPLOY_DIR}/backend &&
+        echo ${ENV} | base64 -d > .env &&
+        docker compose up -d --build --no-deps --force-recreate --remove-orphans
+      "
+
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"

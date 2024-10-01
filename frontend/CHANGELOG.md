@@ -1,5 +1,51 @@
 
 
+# [0.5.0](https://github.com/jmiguelv/iREAL/compare/v0.4.0...v0.5.0) (2024-10-01)
+
+
+### Bug Fixes
+
+* **api:** add cors middleware ([99427de](https://github.com/jmiguelv/iREAL/commit/99427ded15ae442d229857d4d139d1013dc5f4ae))
+* **backend:** change the phoenix endpoint to include only the host and port ([769ddd1](https://github.com/jmiguelv/iREAL/commit/769ddd161d9b4d732fd900a66375a09e3db2c550))
+* **chat:** typo ([59504ee](https://github.com/jmiguelv/iREAL/commit/59504ee28534e64a2e6bd56d8ccadd18668375af))
+* **chat:** typo ([c370492](https://github.com/jmiguelv/iREAL/commit/c3704923761bd7a3d1bf3303b6e12ef2254dd263))
+* **cli:** restore the prompt for the retriever query engine ([5a9b017](https://github.com/jmiguelv/iREAL/commit/5a9b0176a5a6293ca7b0b08a23a2c8ffc467ad13))
+* **frontend:** change the api endpoint to make it more generic ([79c43e9](https://github.com/jmiguelv/iREAL/commit/79c43e96b387ff4ecbcd2ac3c971f261d91bb541))
+* **frontend:** ensure the submit is handled correctly ([006a924](https://github.com/jmiguelv/iREAL/commit/006a9247966a336e350bcede5983050d2aca799a))
+* **frontend:** remove debug logging ([5859e23](https://github.com/jmiguelv/iREAL/commit/5859e23dd5ab01a362b4a5978d272c7d87e6231b))
+* **frontend:** typo ([7b4bcdb](https://github.com/jmiguelv/iREAL/commit/7b4bcdbaf785ec7e545b45ec9a3f4111262fae01))
+
+
+### Features
+
+* **api:** add endpoint to collect feedback ([6f89792](https://github.com/jmiguelv/iREAL/commit/6f89792e17752938d61d94092c54581fabb159e7))
+* **api:** add workers to uvicorn ([75e2331](https://github.com/jmiguelv/iREAL/commit/75e23315e5611c3cff8f23bf118467ae577129ef))
+* **backend:** add api for rag ([8b3beea](https://github.com/jmiguelv/iREAL/commit/8b3beea3c86bb373b7316f33d72dc86a6bcdf789))
+* **backend:** add trace information to the query responses ([6dee721](https://github.com/jmiguelv/iREAL/commit/6dee721968b5f0a750d9d6b8f3f2a6252a8423ad))
+* **chat:** add a marker for retried questions ([c89d975](https://github.com/jmiguelv/iREAL/commit/c89d9757b81f34f24cd8e2b805d1a198c0df9c04))
+* **chat:** add help section ([511a511](https://github.com/jmiguelv/iREAL/commit/511a511d3160256a64ef937876ec695907fbb00c))
+* **chat:** display the default prompt in the customise section ([9186fb1](https://github.com/jmiguelv/iREAL/commit/9186fb1de6701741d5c686665175400db2cf730b))
+* **chat:** expand the description of the example questions ([77a9030](https://github.com/jmiguelv/iREAL/commit/77a9030b3095ecc9012200d438f1589d573bc3d7))
+* **chat:** expand the explanation about the chatbot ([5836b31](https://github.com/jmiguelv/iREAL/commit/5836b31b96b770a4a99c6e939b93d2bce3defd1f))
+* **frontend:** add functionality to collect user feedback on the answers ([ae239e9](https://github.com/jmiguelv/iREAL/commit/ae239e9a471abf380570cda95c3993ae6c8935b9))
+
+# [0.4.0](https://github.com/jmiguelv/iREAL/compare/v0.3.0...v0.4.0) (2024-09-24)
+
+
+### Bug Fixes
+
+* **backend:** add prompt to the retriever query engine ([234af2e](https://github.com/jmiguelv/iREAL/commit/234af2e5c8d8c12c193b84528d3263db462e6756))
+* **frontend:** use data preparation instead of pre-processing ([3aec3bb](https://github.com/jmiguelv/iREAL/commit/3aec3bbf17a6051de4d71bbf825d93e0bc0d2a4f))
+
+
+### Features
+
+* **backend:** enable observability ([ff4c14f](https://github.com/jmiguelv/iREAL/commit/ff4c14f56876f69f7e4eac475ab5e40cafd1bd61))
+* **frontend:** add contact details ([b58760e](https://github.com/jmiguelv/iREAL/commit/b58760efb7be7f9aa6e9f1c66d0ea99570f110c6))
+* **frontend:** add llm prompts ([ee56c55](https://github.com/jmiguelv/iREAL/commit/ee56c55163a76746a4656fb92e7a7bee52ba20c0))
+* **frontend:** expand the ethics section ([ac94052](https://github.com/jmiguelv/iREAL/commit/ac9405288310d88052126f1194c3b5fce5656c9a))
+* **frontend:** expand the explanation about the map view ([ca7a312](https://github.com/jmiguelv/iREAL/commit/ca7a31225823333cda76d90b81cba83ac7e90461))
+
 # [0.3.0](https://github.com/jmiguelv/iREAL/compare/v0.2.2...v0.3.0) (2024-09-10)
 
 

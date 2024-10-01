@@ -1,11 +1,41 @@
 name: ireal
 
+x-var: &VIRTUAL_HOST "ireal.kdl.kcl.ac.uk,localhost,127.0.0.1"
+
 services:
+  nginx-proxy:
+    image: nginxproxy/nginx-proxy:1.4
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    expose:
+      - 8000
+    volumes:
+      - ./data:/app/data
+    env_file:
+      - .env
+    environment:
+      VIRTUAL_HOST: *VIRTUAL_HOST
+      VIRTUAL_PATH: "/"
+      VIRTUAL_PROTO: "http"
+      VIRTUAL_PORT: 8000
+    depends_on:
+      - qdrant
+      - redis
+      - phoenix
+
   qdrant:
     image: qdrant/qdrant
     ports:
-      - 6333:6333
-      - 6334:6334
+      - "6333:6333"
+      - "6334:6334"
     expose:
       - 6333
       - 6334
@@ -15,14 +45,14 @@ services:
 
   redis:
     image: redis/redis-stack
-    ports:
-      - 6379:6379
-      - 8001:8001
+    expose:
+      - 6379
+      - 8001
     volumes:
       - ./data/1_interim/redis:/data
 
   phoenix:
     image: arizephoenix/phoenix:latest
     ports:
-      - 6006:6006
-      - 4317:4317
+      - "6006:6006"
+      - "4317:4317"
