@@ -58,6 +58,7 @@ separated. Topics:"""
 ## Dashboard Features
 
 - **School Profiles**: Detailed information about each Aboriginal school, including historical context and extracted metadata.
+- **Chat**: Ask questions about the school records. For more information on how the chat works, see the Help section on the [chat page](chat).
 - **Topic and Keyword Exploration**: Discover common themes and important terms.
 - **Organisations Exploration**: Examine referenced organisations and their frequency of mention.
 - **Interactive Map**: Explore the geographical distribution of schools.
