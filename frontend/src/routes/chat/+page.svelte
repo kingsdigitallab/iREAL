@@ -319,7 +319,7 @@
 	<dialog open>
 		<article>
 			<header>
-				<button aria-label="Close" rel="prev" on:click={toggleHelp}></button>
+				<button aria-label="Close" on:click={toggleHelp}></button>
 				<h3>How to use the school records chatbot</h3>
 			</header>
 			<section>
@@ -341,16 +341,16 @@
 
 				<h4>Example questions</h4>
 				<p>
-					Not sure what to ask? Click the "Show examples" button to see some sample questions. Click
-					"Ask" next to any example to use it.
+					Not sure what to ask? Click the "Show examples" (open by default) button to see some
+					sample questions. Click "Ask" next to any example to use it.
 				</p>
 
 				<h4>Chat history</h4>
 				<ul>
 					<li>Your conversation history is displayed above the input box.</li>
 					<li>Each entry shows your question, the AI's response, and the sources used.</li>
-					<li>Click "Ask again" (refresh icon) to retry a question.</li>
-					<li>Use the trash icon to delete individual chat entries.</li>
+					<li>Use the "Retry" button (refresh icon) to ask the same question again.</li>
+					<li>Use the "Delete" button (trash icon) to delete individual chat entries.</li>
 				</ul>
 
 				<h4>Customising the bot</h4>
@@ -359,6 +359,14 @@
 					give it special instructions. You can also view the default prompt used by the AI by
 					expanding the "Default prompt" section.
 				</p>
+
+				<h4>Providing feedback</h4>
+				<p>After each answer, you can provide feedback to help improve the chatbot:</p>
+				<ul>
+					<li>Click the thumbs-up icon if the answer was helpful and accurate.</li>
+					<li>Click the thumbs-down icon if the answer was not helpful or contained errors.</li>
+					<li>Your feedback can help improve the quality of responses for future queries.</li>
+				</ul>
 
 				<h4>Additional features</h4>
 				<ul>
