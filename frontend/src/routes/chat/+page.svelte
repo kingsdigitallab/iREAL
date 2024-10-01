@@ -534,6 +534,12 @@
 		display: flex;
 		justify-content: space-around;
 		padding-top: 1rem;
+
+		& button {
+			font-size: 0.8rem;
+			min-width: auto;
+			padding: 0.3rem 0.5rem;
+		}
 	}
 
 	.chat-history article footer {
@@ -545,8 +551,8 @@
 
 		& button {
 			font-size: 0.8rem;
-			padding: 0.3rem 0.5rem;
 			min-width: auto;
+			padding: 0.3rem 0.5rem;
 
 			& svg {
 				width: 0.8rem;
