@@ -3,7 +3,7 @@ import { dev } from '$app/environment';
 export const title = 'iREAL';
 export const description =
 	'Inclusive Requirements Elicitation for AI in Libraries to Support Respectful Management of Indigenous Knowledges';
-export const url = dev ? 'http://localhost:5173/' : 'https://ireal.vercel.app/';
+export const url = dev ? 'http://localhost:5173/' : 'https://i-real.vercel.app/';
 export const apiEndpoint = dev ? 'http://localhost/api' : 'https://ireal.kdl.kcl.ac.uk/api';
 
 export const promptDefault = `
