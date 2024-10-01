@@ -41,6 +41,8 @@ from llama_index.retrievers.bm25 import BM25Retriever
 from llama_index.storage.kvstore.redis import RedisKVStore as RedisCache
 from llama_index.vector_stores.qdrant import QdrantVectorStore
 from openinference.instrumentation.llama_index import LlamaIndexInstrumentor
+from openinference.semconv.trace import SpanAttributes
+from opentelemetry import trace
 from phoenix.otel import register
 from qdrant_client import AsyncQdrantClient, QdrantClient
 
@@ -50,7 +52,7 @@ nest_asyncio.apply()
 
 tracer_provider = register(
     project_name=os.getenv("VECTOR_STORE_COLLECTION_NAME"),
-    endpoint=os.getenv("ARIZE_PHOENIX_ENDPOINT"),
+    endpoint=f"{os.getenv('ARIZE_PHOENIX_ENDPOINT')}/v1/traces",
 )
 
 LlamaIndexInstrumentor().instrument(
@@ -277,30 +279,42 @@ def run_bm25_pipeline():
 
 
 def run_chat_session():
+    try:
+        while True:
+            print()
+            query = input("Researcher: ")
+            query_engine = (
+                input("(B)ase, [R]etriever, Retr(y), (H)yDe: ").strip().lower()
+            )
+            response, span_id = process_query(query, query_engine)
+            print(f"Span ID: {span_id}")
+            print_response(response)
+    except (EOFError, KeyboardInterrupt):
+        print("Exiting...")
+
+
+def process_query(query: str, query_engine_type: str, prompt: str = None):
     vector_store = get_vector_store()
     index = VectorStoreIndex.from_vector_store(vector_store)
-
     top_k = int(os.getenv("TOP_K", "5"))
 
-    prompt_path = os.getenv("PROMPT_PATH") or "data/0_raw/prompt.txt"
-    with open(prompt_path, "r") as file:
-        prompt = file.read()
+    if prompt is None:
+        prompt_path = os.getenv("PROMPT_PATH") or "data/0_raw/prompt.txt"
+        with open(prompt_path, "r") as file:
+            prompt = file.read()
 
     prompt_template = PromptTemplate(prompt)
 
     base_query_engine = index.as_query_engine(
         streaming=True,
         similarity_top_k=top_k,
-        text_qa_template=prompt_template,
+        text_qa_template=prompt_template.get_template(),
         verbose=True,
     )
-
     query_response_evaluator = RelevancyEvaluator()
     retry_query_engine = RetryQueryEngine(base_query_engine, query_response_evaluator)
-
     hyde = HyDEQueryTransform(include_original=True)
     hyde_query_engine = TransformQueryEngine(base_query_engine, hyde)
-
     retriever = QueryFusionRetriever(
         [
             index.as_retriever(similarity_top_k=top_k),
@@ -309,33 +323,36 @@ def run_chat_session():
         num_queries=1,
         use_async=True,
     )
+    retriever_query_engine = RetrieverQueryEngine.from_args(
+        retriever=retriever, text_qa_template=prompt_template
+    )
 
-    retriever_query_engine = RetrieverQueryEngine(retriever)
+    query_bundle = QueryBundle(
+        query, embedding=Settings.embed_model.get_query_embedding(query)
+    )
 
-    try:
-        while True:
-            print()
-            query = input("Researcher: ")
-            query_engine = input("(B)ase, [R]etriever, Retr(y), (H)yDe: ")
-            query_engine = query_engine.strip().lower()
+    query_engine_map = {
+        "r": retriever_query_engine,
+        "b": base_query_engine,
+        "y": retry_query_engine,
+        "h": hyde_query_engine,
+    }
+    query_engine = query_engine_map.get(query_engine_type, retriever_query_engine)
 
-            query_bundle = QueryBundle(
-                query, embedding=Settings.embed_model.get_query_embedding(query)
-            )
+    if query_engine:
+        with trace.get_tracer(__name__).start_as_current_span(
+            f"query_{query_engine_type or 'r'}", kind=trace.SpanKind.SERVER
+        ) as span:
+            span.set_attribute(SpanAttributes.INPUT_VALUE, query)
+            span.set_attribute(SpanAttributes.OPENINFERENCE_SPAN_KIND, "SERVER")
 
-            if query_engine == "b":
-                response = base_query_engine.query(query_bundle)
-            elif query_engine == "y":
-                response = retry_query_engine.query(query_bundle)
-            elif query_engine == "h":
-                response = hyde_query_engine.query(query_bundle)
-            else:
-                response = retriever_query_engine.query(query_bundle)
+            response = query_engine.query(query_bundle)
 
-            print_response(response)
-    except (EOFError, KeyboardInterrupt):
-        print("Exiting...")
-        pass
+            span_id = span.get_span_context().span_id.to_bytes(8, "big").hex()
+
+            return response, span_id
+    else:
+        raise ValueError(f"Invalid query engine type: {query_engine_type}")
 
 
 def print_response(response):

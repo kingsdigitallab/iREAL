@@ -1,6 +1,6 @@
 {
 	"name": "frontend",
-	"version": "0.3.0",
+	"version": "0.5.0",
 	"private": true,
 	"scripts": {
 		"dev": "vite dev",
@@ -30,7 +30,9 @@
 		"eslint-config-prettier": "^9.1.0",
 		"eslint-plugin-svelte": "^2.36.0",
 		"globals": "^15.0.0",
+		"localtunnel": "^2.0.2",
 		"lodash": "^4.17.21",
+		"marked": "^14.1.2",
 		"mdsvex": "^0.12.2",
 		"prettier": "^3.1.1",
 		"prettier-plugin-svelte": "^3.1.2",
@@ -45,6 +47,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@fontsource/merriweather": "^5.1.0",
 		"@fontsource/source-sans-pro": "^5.0.8",
 		"@picocss/pico": "^2.0.6",
 		"lucide-svelte": "^0.427.0",
