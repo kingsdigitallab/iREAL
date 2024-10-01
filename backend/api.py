@@ -2,12 +2,14 @@ import logging
 import os
 
 import httpx
+import phoenix as px
 import uvicorn
 from cli import init_settings, process_query
 from dotenv import load_dotenv
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import RedirectResponse
+from phoenix.trace.dsl import SpanQuery
 
 load_dotenv()
 
@@ -111,7 +113,7 @@ async def submit_feedback(request: Request):
         )
 
         client = httpx.Client()
-        phoenix_endpoint = os.getenv("ARIZE_PHOENIX_ENDPOINT").strip()
+        phoenix_endpoint = os.getenv("ARIZE_PHOENIX_ENDPOINT")
 
         annotation_payload = {
             "data": [
@@ -121,7 +123,7 @@ async def submit_feedback(request: Request):
                     "annotator_kind": "HUMAN",
                     "result": {
                         "label": "thumbs-up",
-                        "score": 1 if is_positive else 0,
+                        "score": 1 if is_positive else -1,
                     },
                 }
             ]
@@ -145,6 +147,52 @@ async def submit_feedback(request: Request):
     except Exception as e:
         logger.error(f"Error processing feedback: {str(e)}")
         return {"error": "An error occurred while processing the feedback"}
+
+
+@app.get("/api/feedback")
+async def get_feedback():
+    try:
+        client = px.Client(endpoint=os.getenv("ARIZE_PHOENIX_ENDPOINT"))
+
+        base_query = SpanQuery().where('span_kind == "UNKNOWN"')
+        all_spans_df = client.query_spans(
+            base_query,
+            project_name=os.getenv("VECTOR_STORE_COLLECTION_NAME"),
+            root_spans_only=False,
+        )
+
+        positive_feedback_query = base_query.where(
+            'annotations["user feedback"].score == 1'
+        )
+        positive_feedback_df = client.query_spans(
+            positive_feedback_query,
+            project_name=os.getenv("VECTOR_STORE_COLLECTION_NAME"),
+            root_spans_only=False,
+        )
+
+        negative_feedback_query = base_query.where(
+            'annotations["user feedback"].score == -1'
+        )
+        negative_feedback_df = client.query_spans(
+            negative_feedback_query,
+            project_name=os.getenv("VECTOR_STORE_COLLECTION_NAME"),
+            root_spans_only=False,
+        )
+
+        total_queries = len(all_spans_df)
+        positive_feedback = len(positive_feedback_df)
+        negative_feedback = len(negative_feedback_df)
+        queries_without_feedback = total_queries - positive_feedback - negative_feedback
+
+        return {
+            "total_queries": total_queries,
+            "queries_without_feedback": queries_without_feedback,
+            "positive_feedback": positive_feedback,
+            "negative_feedback": negative_feedback,
+        }
+    except Exception as e:
+        logger.error(f"An error occurred while fetching feedback stats: {str(e)}")
+        return {"error": "An error occurred while fetching feedback statistics"}
 
 
 if __name__ == "__main__":
