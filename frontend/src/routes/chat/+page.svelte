@@ -170,6 +170,35 @@
 		}
 	}
 
+	let showFeedbackStats = false;
+
+	async function toggleFeedbackStats() {
+		showFeedbackStats = !showFeedbackStats;
+		if (showFeedbackStats) {
+			await fetchFeedbackStats();
+		}
+	}
+
+	let feedbackStats = {
+		total_queries: 0,
+		queries_without_feedback: 0,
+		positive_feedback: 0,
+		negative_feedback: 0
+	};
+
+	async function fetchFeedbackStats() {
+		try {
+			const response = await fetch(`${apiEndpoint}/feedback`);
+			if (response.ok) {
+				feedbackStats = await response.json();
+			} else {
+				console.error('Failed to fetch feedback stats:', response);
+			}
+		} catch (error) {
+			console.error('Error fetching feedback stats:', error);
+		}
+	}
+
 	onMount(() => {
 		scrollToBottom();
 	});
@@ -311,6 +340,9 @@
 		<button class="secondary" on:click={() => (showCustomisePrompt = true)}
 			>Customise the bot</button
 		>
+		<button class="secondary" on:click={toggleFeedbackStats}>
+			{showFeedbackStats ? 'Hide' : 'Show'} feedback stats
+		</button>
 		<button class="secondary" on:click={clearChatHistory}>Clear the chat</button>
 	</section>
 </section>
@@ -319,7 +351,7 @@
 	<dialog open>
 		<article>
 			<header>
-				<button aria-label="Close" on:click={toggleHelp}></button>
+				<button aria-label="Close" rel="prev" on:click={toggleHelp}></button>
 				<h3>How to use the school records chatbot</h3>
 			</header>
 			<section>
@@ -419,6 +451,66 @@
 	</dialog>
 {/if}
 
+{#if showFeedbackStats}
+	<dialog open>
+		<article>
+			<header>
+				<button aria-label="Close" rel="prev" on:click={toggleFeedbackStats}></button>
+				<h3>Feedback statistics</h3>
+			</header>
+			<section>
+				<table>
+					<thead>
+						<tr>
+							<th>Metric</th>
+							<th>Count</th>
+							<th>Percentage</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>Total queries</td>
+							<td>{feedbackStats.total_queries}</td>
+							<td>100%</td>
+						</tr>
+						<tr>
+							<td>Queries without feedback</td>
+							<td>{feedbackStats.queries_without_feedback}</td>
+							<td>
+								{(
+									(feedbackStats.queries_without_feedback / feedbackStats.total_queries) *
+									100
+								).toFixed(2)}%
+							</td>
+						</tr>
+						<tr>
+							<td>Positive feedback</td>
+							<td>{feedbackStats.positive_feedback}</td>
+							<td>
+								{((feedbackStats.positive_feedback / feedbackStats.total_queries) * 100).toFixed(
+									2
+								)}%
+							</td>
+						</tr>
+						<tr>
+							<td>Negative feedback</td>
+							<td>{feedbackStats.negative_feedback}</td>
+							<td>
+								{((feedbackStats.negative_feedback / feedbackStats.total_queries) * 100).toFixed(
+									2
+								)}%
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</section>
+			<footer>
+				<button class="secondary" on:click={toggleFeedbackStats}>Close</button>
+			</footer>
+		</article>
+	</dialog>
+{/if}
+
 <style>
 	.example-questions {
 		margin-top: 2rem;
@@ -445,10 +537,11 @@
 	}
 
 	.chat-history article footer {
-		text-align: right;
 		display: flex;
-		justify-content: space-between;
+		font-size: 0.8rem;
 		gap: 0.5rem;
+		justify-content: space-between;
+		text-align: right;
 	}
 
 	div.meta {
