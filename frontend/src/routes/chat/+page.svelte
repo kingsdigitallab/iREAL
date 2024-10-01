@@ -414,7 +414,7 @@
 					<li>Ask one question at a time for clearer answers.</li>
 					<li>If you don't get the information you need, try rephrasing your question.</li>
 					<li>
-						Use the "Ask again" feature if you think the AI missed something in its first response.
+						Use the "Retry" feature if you think the AI missed something in its first response.
 					</li>
 				</ul>
 			</section>
