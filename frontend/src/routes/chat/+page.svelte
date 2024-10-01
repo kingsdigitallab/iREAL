@@ -247,12 +247,12 @@
 					</details>
 					<footer>
 						<div class="feedback-buttons">
-							<span>Was this answer helpful?</span>
+							<span class="visually-hidden">Was this answer helpful?</span>
 							<button
 								class="feedback positive outline"
 								class:secondary={chat.feedback === false}
 								class:filled={chat.feedback === true}
-								data-tooltip="Yes, it was a good answer"
+								data-tooltip="This answer was helpful"
 								on:click={() => handleFeedback(parseInt(timestamp), chat.spanId, true)}
 								><ThumbsUpIcon /></button
 							>
@@ -260,7 +260,7 @@
 								class="feedback negative outline"
 								class:secondary={chat.feedback === true}
 								class:filled={chat.feedback === false}
-								data-tooltip="No, it was a bad answer"
+								data-tooltip="This answer was not helpful"
 								on:click={() => handleFeedback(parseInt(timestamp), chat.spanId, false)}
 								><ThumbsDownIcon /></button
 							>
@@ -542,6 +542,16 @@
 		gap: 0.5rem;
 		justify-content: space-between;
 		text-align: right;
+
+		& button {
+			font-size: 0.8rem;
+			padding: 0.3rem 0.5rem;
+			min-width: auto;
+
+			& svg {
+				width: 0.8rem;
+			}
+		}
 	}
 
 	div.meta {
@@ -560,12 +570,16 @@
 
 	.feedback-buttons button {
 		border: none;
-		padding-inline: unset;
+		padding: 0.5rem 0.2rem !important;
 	}
 
 	.feedback.filled {
 		& svg {
 			stroke-width: 3px;
 		}
+	}
+
+	.visually-hidden {
+		display: none;
 	}
 </style>
