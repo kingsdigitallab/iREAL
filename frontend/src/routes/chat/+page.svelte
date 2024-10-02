@@ -208,7 +208,7 @@
 	<hgroup>
 		<h1>Interactive school records <em>chatbot</em></h1>
 		<p>
-			Explore the school records through an AI-powered question-answering system. Ask about schools,
+			Explore the school records through an AI-based question-answering system. Ask about schools,
 			events, or any aspect of the records information. To get started click on one of the example
 			questions below or enter your own into the text box.
 		</p>
@@ -364,7 +364,7 @@
 				<h4>What is RAG?</h4>
 				<p>
 					This chatbot uses a technique called Retrieval-Augmented Generation (RAG). RAG combines
-					the power of large language models with a knowledge base of specific information:
+					large language models with a knowledge base of specific information:
 				</p>
 				<ul>
 					<li>
@@ -435,6 +435,31 @@
 					<li>If you don't get the information you need, try rephrasing your question.</li>
 					<li>
 						Use the "Retry" feature if you think the AI missed something in its first response.
+					</li>
+				</ul>
+
+				<h4>Known RAG issues</h4>
+				<p>While RAG systems can be powerful, they're not perfect. Here are some known issues:</p>
+				<ul>
+					<li>
+						Hallucination: The AI might occasionally generate information that's not in the source
+						documents.
+					</li>
+					<li>
+						Context limitations: The AI can only work with the context it's given, which might not
+						always include all relevant information.
+					</li>
+					<li>
+						Temporal confusion: The AI might struggle with understanding the timeline of events,
+						especially for historical data.
+					</li>
+					<li>
+						Inconsistent answers: You might get slightly different answers to the same question
+						asked multiple times.
+					</li>
+					<li>
+						Bias in source material: The AI's responses reflect any biases present in the original
+						documents.
 					</li>
 				</ul>
 			</section>
@@ -545,7 +570,6 @@
 		padding: 1rem;
 		text-align: center;
 	}
-
 	.example-questions article footer {
 		background-color: inherit;
 		border: none;
