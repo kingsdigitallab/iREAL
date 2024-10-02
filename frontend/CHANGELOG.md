@@ -1,5 +1,21 @@
 
 
+## [0.5.1](https://github.com/jmiguelv/iREAL/compare/v0.5.0...v0.5.1) (2024-10-02)
+
+
+### Bug Fixes
+
+* **frontend:** typo ([0b04525](https://github.com/jmiguelv/iREAL/commit/0b04525788e09fc1dcf05efd80c6fae0f3308c1c))
+
+
+### Features
+
+* **backend:** add api endpoint to get feedback stats ([bb2110d](https://github.com/jmiguelv/iREAL/commit/bb2110d581cddc6f144d289dfd2a09994cd6cfd7))
+* **frontend:** add link from about to the chat ([6cd119a](https://github.com/jmiguelv/iREAL/commit/6cd119aa65be29eea50aeb718bb9f2de7682234c))
+* **frontend:** add section to display feedback stats ([61c751d](https://github.com/jmiguelv/iREAL/commit/61c751dfb285d0c39107d773d16f1da50054a304))
+* **frontend:** reduce the size of the example questions buttons ([000b834](https://github.com/jmiguelv/iREAL/commit/000b834ffec7b47fa811dcba5a20dcf10e9761c5))
+* **frontend:** reduce the size of the feedback and action buttons for each answer ([54a1e51](https://github.com/jmiguelv/iREAL/commit/54a1e51d8b2afdc388fd96145e58940fd5138b4f))
+
 # [0.5.0](https://github.com/jmiguelv/iREAL/compare/v0.4.0...v0.5.0) (2024-10-01)
 
 
