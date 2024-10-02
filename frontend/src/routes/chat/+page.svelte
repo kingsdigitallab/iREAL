@@ -376,7 +376,7 @@
 						grounded in the actual historical data.
 					</li>
 					<li>
-						This approach helps provide more accurate and contextually relevant answers about the
+						This approach can help provide more accurate and contextually relevant answers about the
 						Aboriginal school records.
 					</li>
 				</ul>
