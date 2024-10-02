@@ -357,9 +357,29 @@
 			<section>
 				<h4>Getting started</h4>
 				<p>
-					Welcome to the interactive school records chatbot! This AI-powered system allows you to
+					Welcome to the interactive school records chatbot! This AI system (RAG) allows you to
 					explore and inquire about the Aboriginal school records.
 				</p>
+
+				<h4>What is RAG?</h4>
+				<p>
+					This chatbot uses a technique called Retrieval-Augmented Generation (RAG). RAG combines
+					the power of large language models with a knowledge base of specific information:
+				</p>
+				<ul>
+					<li>
+						When you ask a question, the system first retrieves relevant information from its
+						database of school records.
+					</li>
+					<li>
+						It then uses this retrieved information to generate a response, ensuring answers are
+						grounded in the actual historical data.
+					</li>
+					<li>
+						This approach helps provide more accurate and contextually relevant answers about the
+						Aboriginal school records.
+					</li>
+				</ul>
 
 				<h4>Asking questions</h4>
 				<ul>
