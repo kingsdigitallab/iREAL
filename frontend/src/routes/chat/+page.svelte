@@ -292,7 +292,7 @@
 			<h2>Example questions</h2>
 			<p>
 				AI-generated questions, created during data processing, to help explore the school records.
-				These change randomly and may occasionally be imperfect.
+				These change randomly and may occasionally be incomplete or grammatically incorrect.
 			</p>
 		</hgroup>
 		<section class="grid">
