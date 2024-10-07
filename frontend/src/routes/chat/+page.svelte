@@ -208,7 +208,7 @@
 	<hgroup>
 		<h1>Interactive school records <em>chatbot</em></h1>
 		<p>
-			Explore the school records through an AI-powered question-answering system. Ask about schools,
+			Explore the school records through an AI-based question-answering system. Ask about schools,
 			events, or any aspect of the records information. To get started click on one of the example
 			questions below or enter your own into the text box.
 		</p>
@@ -247,12 +247,12 @@
 					</details>
 					<footer>
 						<div class="feedback-buttons">
-							<span>Was this answer helpful?</span>
+							<span class="visually-hidden">Was this answer helpful?</span>
 							<button
 								class="feedback positive outline"
 								class:secondary={chat.feedback === false}
 								class:filled={chat.feedback === true}
-								data-tooltip="Yes, it was a good answer"
+								data-tooltip="This answer was helpful"
 								on:click={() => handleFeedback(parseInt(timestamp), chat.spanId, true)}
 								><ThumbsUpIcon /></button
 							>
@@ -260,7 +260,7 @@
 								class="feedback negative outline"
 								class:secondary={chat.feedback === true}
 								class:filled={chat.feedback === false}
-								data-tooltip="No, it was a bad answer"
+								data-tooltip="This answer was not helpful"
 								on:click={() => handleFeedback(parseInt(timestamp), chat.spanId, false)}
 								><ThumbsDownIcon /></button
 							>
@@ -292,7 +292,7 @@
 			<h2>Example questions</h2>
 			<p>
 				AI-generated questions, created during data processing, to help explore the school records.
-				These change randomly and may occasionally be imperfect.
+				These change randomly and may occasionally be incomplete or grammatically incorrect.
 			</p>
 		</hgroup>
 		<section class="grid">
@@ -357,9 +357,29 @@
 			<section>
 				<h4>Getting started</h4>
 				<p>
-					Welcome to the interactive school records chatbot! This AI-powered system allows you to
+					Welcome to the interactive school records chatbot! This AI system (RAG) allows you to
 					explore and inquire about the Aboriginal school records.
 				</p>
+
+				<h4>What is RAG?</h4>
+				<p>
+					This chatbot uses a technique called Retrieval-Augmented Generation (RAG). RAG combines
+					large language models with a knowledge base of specific information:
+				</p>
+				<ul>
+					<li>
+						When you ask a question, the system first retrieves relevant information from its
+						database of school records.
+					</li>
+					<li>
+						It then uses this retrieved information to generate a response, ensuring answers are
+						grounded in the actual historical data.
+					</li>
+					<li>
+						This approach can help provide more accurate and contextually relevant answers about the
+						Aboriginal school records.
+					</li>
+				</ul>
 
 				<h4>Asking questions</h4>
 				<ul>
@@ -415,6 +435,31 @@
 					<li>If you don't get the information you need, try rephrasing your question.</li>
 					<li>
 						Use the "Retry" feature if you think the AI missed something in its first response.
+					</li>
+				</ul>
+
+				<h4>Known RAG issues</h4>
+				<p>While RAG systems can be powerful, they're not perfect. Here are some known issues:</p>
+				<ul>
+					<li>
+						Hallucination: The AI might occasionally generate information that's not in the source
+						documents.
+					</li>
+					<li>
+						Context limitations: The AI can only work with the context it's given, which might not
+						always include all relevant information.
+					</li>
+					<li>
+						Temporal confusion: The AI might struggle with understanding the timeline of events,
+						especially for historical data.
+					</li>
+					<li>
+						Inconsistent answers: You might get slightly different answers to the same question
+						asked multiple times.
+					</li>
+					<li>
+						Bias in source material: The AI's responses reflect any biases present in the original
+						documents.
 					</li>
 				</ul>
 			</section>
@@ -525,7 +570,6 @@
 		padding: 1rem;
 		text-align: center;
 	}
-
 	.example-questions article footer {
 		background-color: inherit;
 		border: none;
@@ -534,6 +578,12 @@
 		display: flex;
 		justify-content: space-around;
 		padding-top: 1rem;
+
+		& button {
+			font-size: 0.8rem;
+			min-width: auto;
+			padding: 0.3rem 0.5rem;
+		}
 	}
 
 	.chat-history article footer {
@@ -542,6 +592,16 @@
 		gap: 0.5rem;
 		justify-content: space-between;
 		text-align: right;
+
+		& button {
+			font-size: 0.8rem;
+			min-width: auto;
+			padding: 0.3rem 0.5rem;
+
+			& svg {
+				width: 0.8rem;
+			}
+		}
 	}
 
 	div.meta {
@@ -560,12 +620,16 @@
 
 	.feedback-buttons button {
 		border: none;
-		padding-inline: unset;
+		padding: 0.5rem 0.2rem !important;
 	}
 
 	.feedback.filled {
 		& svg {
 			stroke-width: 3px;
 		}
+	}
+
+	.visually-hidden {
+		display: none;
 	}
 </style>

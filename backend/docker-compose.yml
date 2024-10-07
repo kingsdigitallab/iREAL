@@ -15,6 +15,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    restart: unless-stopped
     expose:
       - 8000
     volumes:
@@ -33,6 +34,7 @@ services:
 
   qdrant:
     image: qdrant/qdrant
+    restart: unless-stopped
     ports:
       - "6333:6333"
       - "6334:6334"
@@ -45,6 +47,7 @@ services:
 
   redis:
     image: redis/redis-stack
+    restart: unless-stopped
     expose:
       - 6379
       - 8001
@@ -53,6 +56,11 @@ services:
 
   phoenix:
     image: arizephoenix/phoenix:latest
+    restart: unless-stopped
     ports:
       - "6006:6006"
       - "4317:4317"
+    environment:
+      - PHOENIX_WORKING_DIR=/mnt/data
+    volumes:
+      - ./data/2_final/phoenix:/mnt/data
