@@ -1,5 +1,7 @@
 
 
+## [0.5.3](https://github.com/jmiguelv/iREAL/compare/v0.5.2...v0.5.3) (2024-10-18)
+
 ## [0.5.2](https://github.com/jmiguelv/iREAL/compare/v0.5.1...v0.5.2) (2024-10-11)
 
 
