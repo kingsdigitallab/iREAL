@@ -132,8 +132,10 @@
 	}
 
 	async function clearChatHistory() {
-		chatHistory = {};
-		localStorage.removeItem('chatHistory');
+		if (confirm('Are you sure you want to clear all answers? This action cannot be undone.')) {
+			chatHistory = {};
+			localStorage.removeItem('chatHistory');
+		}
 	}
 
 	async function saveBotPrompt() {
@@ -342,7 +344,7 @@
 		<button class="secondary" on:click={toggleFeedbackStats}>
 			{showFeedbackStats ? 'Hide' : 'Show'} feedback stats
 		</button>
-		<button class="secondary" on:click={clearChatHistory}>Clear the chat</button>
+		<button class="secondary" on:click={clearChatHistory}>Clear all answers</button>
 	</section>
 </section>
 
@@ -421,7 +423,7 @@
 
 				<h4>Additional features</h4>
 				<ul>
-					<li>Clear the entire chat history using the "Clear the chat" button.</li>
+					<li>Clear the entire question/answer history using the "Clear all answers" button.</li>
 					<li>
 						View the context used for each answer by expanding the "Context used to generate this
 						answer" section.
