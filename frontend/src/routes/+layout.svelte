@@ -29,7 +29,7 @@
 			<ul>
 				<li><BaseLink href="about" navItem={true}>About</BaseLink></li>
 				<li><BaseLink href="schools" navItem={true}>School records</BaseLink></li>
-				<li><BaseLink href="chat" navItem={true}>Chat</BaseLink></li>
+				<li><BaseLink href="explorer" navItem={true}>Explorer</BaseLink></li>
 				<li><BaseLink href="keywords" navItem={true}>Keywords</BaseLink></li>
 				<li><BaseLink href="topics" navItem={true}>Topics</BaseLink></li>
 				<li><BaseLink href="organisations" navItem={true}>Organisations</BaseLink></li>

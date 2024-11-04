@@ -1,5 +1,20 @@
 
 
+## [0.5.3](https://github.com/jmiguelv/iREAL/compare/v0.5.2...v0.5.3) (2024-10-18)
+
+## [0.5.2](https://github.com/jmiguelv/iREAL/compare/v0.5.1...v0.5.2) (2024-10-11)
+
+
+### Bug Fixes
+
+* **frontend:** clarify about issues with the example questions ([0d2d2dd](https://github.com/jmiguelv/iREAL/commit/0d2d2dde1b3fc4e68507bf0ff7d5d85bbe35c4d4))
+* **frontend:** rename chatbot to explorer ([cc3fb6d](https://github.com/jmiguelv/iREAL/commit/cc3fb6dfa12aeceaeb4d25042db28809bee4ef14))
+
+
+### Features
+
+* **frontend:** add disclaimer and moved version and github links to the footer ([8834708](https://github.com/jmiguelv/iREAL/commit/8834708cf4083392b9ed2f84f41b0255d5445b2d))
+
 ## [0.5.1](https://github.com/jmiguelv/iREAL/compare/v0.5.0...v0.5.1) (2024-10-02)
 
 
