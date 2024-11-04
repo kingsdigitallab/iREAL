@@ -132,8 +132,10 @@
 	}
 
 	async function clearChatHistory() {
-		chatHistory = {};
-		localStorage.removeItem('chatHistory');
+		if (confirm('Are you sure you want to clear all answers? This action cannot be undone.')) {
+			chatHistory = {};
+			localStorage.removeItem('chatHistory');
+		}
 	}
 
 	async function saveBotPrompt() {
@@ -206,7 +208,7 @@
 
 <section>
 	<hgroup>
-		<h1>Interactive school records <em>chatbot</em></h1>
+		<h1>AI-assisted school records explorer</h1>
 		<p>
 			Explore the school records through an AI-based question-answering system. Ask about schools,
 			events, or any aspect of the records information. To get started click on one of the example
@@ -337,13 +339,12 @@
 		<button class="secondary" on:click={toggleExampleQuestions}>
 			{showExampleQuestions ? 'Hide' : 'Show'} examples
 		</button>
-		<button class="secondary" on:click={() => (showCustomisePrompt = true)}
-			>Customise the bot</button
+		<button class="secondary" on:click={() => (showCustomisePrompt = true)}>Customise the AI</button
 		>
 		<button class="secondary" on:click={toggleFeedbackStats}>
 			{showFeedbackStats ? 'Hide' : 'Show'} feedback stats
 		</button>
-		<button class="secondary" on:click={clearChatHistory}>Clear the chat</button>
+		<button class="secondary" on:click={clearChatHistory}>Clear all answers</button>
 	</section>
 </section>
 
@@ -352,18 +353,18 @@
 		<article>
 			<header>
 				<button aria-label="Close" rel="prev" on:click={toggleHelp}></button>
-				<h3>How to use the school records chatbot</h3>
+				<h3>How to use the school records explorer</h3>
 			</header>
 			<section>
 				<h4>Getting started</h4>
 				<p>
-					Welcome to the interactive school records chatbot! This AI system (RAG) allows you to
+					Welcome to the interactive school records explorer! This AI system (RAG) allows you to
 					explore and inquire about the Aboriginal school records.
 				</p>
 
 				<h4>What is RAG?</h4>
 				<p>
-					This chatbot uses a technique called Retrieval-Augmented Generation (RAG). RAG combines
+					This explorer uses a technique called Retrieval-Augmented Generation (RAG). RAG combines
 					large language models with a knowledge base of specific information:
 				</p>
 				<ul>
@@ -405,15 +406,15 @@
 					<li>Use the "Delete" button (trash icon) to delete individual chat entries.</li>
 				</ul>
 
-				<h4>Customising the bot</h4>
+				<h4>Customising the AI</h4>
 				<p>
-					Click "Customise the bot" to modify how the AI responds. You can specify the AI's role and
+					Click "Customise the AI" to modify how the AI responds. You can specify the AI's role and
 					give it special instructions. You can also view the default prompt used by the AI by
 					expanding the "Default prompt" section.
 				</p>
 
 				<h4>Providing feedback</h4>
-				<p>After each answer, you can provide feedback to help improve the chatbot:</p>
+				<p>After each answer, you can provide feedback to help improve the AI-system:</p>
 				<ul>
 					<li>Click the thumbs-up icon if the answer was helpful and accurate.</li>
 					<li>Click the thumbs-down icon if the answer was not helpful or contained errors.</li>
@@ -422,7 +423,7 @@
 
 				<h4>Additional features</h4>
 				<ul>
-					<li>Clear the entire chat history using the "Clear the chat" button.</li>
+					<li>Clear the entire question/answer history using the "Clear all answers" button.</li>
 					<li>
 						View the context used for each answer by expanding the "Context used to generate this
 						answer" section.
@@ -476,11 +477,11 @@
 			<header>
 				<button aria-label="Close" rel="prev" on:click={() => (showCustomisePrompt = false)}
 				></button>
-				<h3>Customise the bot</h3>
+				<h3>Customise the AI</h3>
 			</header>
 			<textarea
 				bind:value={newPrompt}
-				placeholder="Specify the AI's role, how to use context and query, and any specific instructions on how the bot should respond."
+				placeholder="Specify the AI's role, how to use context and query, and any specific instructions on how the AI should respond."
 				rows="10"
 				cols="80"
 			></textarea>
